@@ -1,7 +1,7 @@
 {
   "title": "The Big Lebowski",
   "corpus_type": "screenplay",
-  "scene_count": 41,
+  "scene_count": 44,
   "scenes": [
     {
       "heading": "PROLOGUE",
@@ -5064,10 +5064,16 @@
               "index": 28
             }
           ]
-        },
+        }
+      ]
+    },
+    {
+      "heading": "DUDE'S BATHROOM",
+      "index": 16,
+      "shots": [
         {
-          "heading": "DUDE'S BATHROOM",
-          "index": 2,
+          "heading": "",
+          "index": 1,
           "paragraphs": [
             {
               "type": "action",
@@ -5290,10 +5296,16 @@
               "index": 40
             }
           ]
-        },
+        }
+      ]
+    },
+    {
+      "heading": "NORTH HOLLYWOOD AUTO CIRCUS",
+      "index": 17,
+      "shots": [
         {
-          "heading": "NORTH HOLLYWOOD AUTO CIRCUS",
-          "index": 3,
+          "heading": "",
+          "index": 1,
           "paragraphs": [
             {
               "type": "action",
@@ -5379,7 +5391,7 @@
     },
     {
       "heading": "BOWLING ALLEY BAR",
-      "index": 16,
+      "index": 18,
       "shots": [
         {
           "heading": "",
@@ -5834,7 +5846,7 @@
     },
     {
       "heading": "MAUDE'S LOFT",
-      "index": 17,
+      "index": 19,
       "shots": [
         {
           "heading": "",
@@ -6129,7 +6141,7 @@
     },
     {
       "heading": "DUDE'S CAR",
-      "index": 18,
+      "index": 20,
       "shots": [
         {
           "heading": "",
@@ -6179,7 +6191,7 @@
     },
     {
       "heading": "THE STREET",
-      "index": 19,
+      "index": 21,
       "shots": [
         {
           "heading": "",
@@ -6196,7 +6208,7 @@
     },
     {
       "heading": "INSIDE THE CAR",
-      "index": 20,
+      "index": 22,
       "shots": [
         {
           "heading": "",
@@ -6250,7 +6262,7 @@
     },
     {
       "heading": "CRANE JACKSON'S FOUNTAIN STREET THEATER",
-      "index": 21,
+      "index": 23,
       "shots": [
         {
           "heading": "",
@@ -6421,7 +6433,7 @@
     },
     {
       "heading": "RESIDENTIAL AREA",
-      "index": 22,
+      "index": 24,
       "shots": [
         {
           "heading": "",
@@ -6450,7 +6462,7 @@
     },
     {
       "heading": "THE FRONT DOOR",
-      "index": 23,
+      "index": 25,
       "shots": [
         {
           "heading": "",
@@ -6909,7 +6921,7 @@
     },
     {
       "heading": "INSIDE THE CAR",
-      "index": 24,
+      "index": 26,
       "shots": [
         {
           "heading": "",
@@ -6932,7 +6944,7 @@
     },
     {
       "heading": "THE DUDE'S CAR",
-      "index": 25,
+      "index": 27,
       "shots": [
         {
           "heading": "",
@@ -6964,7 +6976,7 @@
     },
     {
       "heading": "DUDE'S BUNGALOW",
-      "index": 26,
+      "index": 28,
       "shots": [
         {
           "heading": "",
@@ -7049,7 +7061,7 @@
     },
     {
       "heading": "MALIBU BEACH",
-      "index": 27,
+      "index": 29,
       "shots": [
         {
           "heading": "",
@@ -7093,7 +7105,7 @@
     },
     {
       "heading": "INSIDE THE BEACH HOUSE",
-      "index": 28,
+      "index": 30,
       "shots": [
         {
           "heading": "",
@@ -7433,7 +7445,7 @@
     },
     {
       "heading": "SQUAD CAR",
-      "index": 29,
+      "index": 31,
       "shots": [
         {
           "heading": "",
@@ -7456,7 +7468,7 @@
     },
     {
       "heading": "CHIEF'S OFFICE",
-      "index": 30,
+      "index": 32,
       "shots": [
         {
           "heading": "",
@@ -7586,10 +7598,16 @@
               "index": 22
             }
           ]
-        },
+        }
+      ]
+    },
+    {
+      "heading": "CAB",
+      "index": 33,
+      "shots": [
         {
-          "heading": "CAB",
-          "index": 2,
+          "heading": "",
+          "index": 1,
           "paragraphs": [
             {
               "type": "action",
@@ -7605,7 +7623,7 @@
         },
         {
           "heading": "DUDE'S POV",
-          "index": 3,
+          "index": 2,
           "paragraphs": [
             {
               "type": "action",
@@ -7654,7 +7672,7 @@
     },
     {
       "heading": "THE STREET",
-      "index": 31,
+      "index": 34,
       "shots": [
         {
           "heading": "",
@@ -7671,7 +7689,7 @@
     },
     {
       "heading": "INSIDE THE OTHER CAR",
-      "index": 32,
+      "index": 35,
       "shots": [
         {
           "heading": "",
@@ -7688,7 +7706,7 @@
     },
     {
       "heading": "THE FOOTWELL",
-      "index": 33,
+      "index": 36,
       "shots": [
         {
           "heading": "",
@@ -7715,7 +7733,7 @@
     },
     {
       "heading": "DUDE'S BUNGALOW",
-      "index": 34,
+      "index": 37,
       "shots": [
         {
           "heading": "",
@@ -8105,7 +8123,7 @@
     },
     {
       "heading": "LIVING ROOM",
-      "index": 35,
+      "index": 38,
       "shots": [
         {
           "heading": "",
@@ -8502,7 +8520,7 @@
     },
     {
       "heading": "DENNY'S",
-      "index": 36,
+      "index": 39,
       "shots": [
         {
           "heading": "",
@@ -8564,7 +8582,7 @@
     },
     {
       "heading": "WALTER'S CAR",
-      "index": 37,
+      "index": 40,
       "shots": [
         {
           "heading": "",
@@ -8719,7 +8737,7 @@
     },
     {
       "heading": "THE LEBOWSKI MANSION",
-      "index": 38,
+      "index": 41,
       "shots": [
         {
           "heading": "",
@@ -8832,7 +8850,7 @@
     },
     {
       "heading": "THE GREAT ROOM",
-      "index": 39,
+      "index": 42,
       "shots": [
         {
           "heading": "",
@@ -9236,7 +9254,7 @@
     },
     {
       "heading": "BOWLING ALLEY PARKING LOT",
-      "index": 40,
+      "index": 43,
       "shots": [
         {
           "heading": "",
@@ -10254,7 +10272,7 @@
     },
     {
       "heading": "BAR AREA",
-      "index": 41,
+      "index": 44,
       "shots": [
         {
           "heading": "",
