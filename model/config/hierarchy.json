@@ -3,7 +3,7 @@
   "title": "The Big Lebowski",
   "corpus_type": "screenplay",
   "parse_template": "screenplay",
-  "levels": ["corpus", "scene", "paragraph", "sentence"],
+  "levels": ["corpus", "scene", "shot", "paragraph", "sentence"],
   "source": {
     "title": "The Big Lebowski",
     "file": "the_big_lebowski.txt",

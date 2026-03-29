@@ -2,14 +2,36 @@
 Parse template for screenplay format.
 
 Line classification by leading tab count:
-  indent=0  + ALL CAPS  -> scene heading
+  indent=0  + ALL CAPS  -> scene heading, shot description, or stage direction
   indent>=3 + ALL CAPS  -> character cue (introduces dialogue)
   indent>=1             -> dialogue (when following character cue)
   indent=0  + mixed     -> action / description
+
+Scene heading sub-classification (all are indent=0 + ALL CAPS):
+  stage_direction : ends with ':'
+  scene           : contains location keywords or INTERIOR/EXTERIOR
+  shot            : everything else (camera directions, character panels, etc.)
 """
 
-import json
+import re
 from pathlib import Path
+
+
+# Words that indicate a camera/framing shot rather than a location scene
+SHOT_KEYWORDS = {
+    'WIDER', 'WIDE', 'CLOSE', 'CLOSER', 'TRACKING', 'TRACK', 'REVERSE',
+    'POV', 'ANGLE', 'SHOT', 'CRANE', 'PAN', 'TILT', 'DOLLY', 'FADE',
+    'CUT', 'BLACK', 'BLACKNESS', 'PINS', 'FLASH', 'FLASHBACK',
+    'CRASH', 'SLOW', 'FAST'
+}
+
+# Patterns that indicate a true scene heading (location change)
+SCENE_PATTERNS = [
+    re.compile(r'^(INTERIOR|EXTERIOR|INT\.|EXT\.)', re.IGNORECASE),
+    re.compile(r"\b(HOUSE|ROOM|LANE|ALLEY|OFFICE|CAR|LOT|STREET|BEACH|"
+               r"LOFT|SHOP|BAR|THEATER|HALLWAY|BUNGALOW|MANSION|HIGHWAY|"
+               r"AREA|DOOR|FOOTWELL|DENNY'S)\b"),
+]
 
 
 def leading_tabs(line):
@@ -19,6 +41,19 @@ def leading_tabs(line):
 def is_all_caps(text):
     text = text.strip()
     return bool(text) and text == text.upper() and any(c.isalpha() for c in text)
+
+
+def classify_heading(text):
+    """Classify an ALL CAPS zero-indent line as scene, shot, or stage_direction."""
+    if text.endswith(':'):
+        return 'stage_direction'
+    if any(p.search(text) for p in SCENE_PATTERNS):
+        return 'scene'
+    words = set(re.findall(r'[A-Z]+', text))
+    if words & SHOT_KEYWORDS:
+        return 'shot'
+    # Default: treat as shot (conservative — keeps scenes clean)
+    return 'shot'
 
 
 def classify_line(line):
@@ -32,7 +67,8 @@ def classify_line(line):
     upper = is_all_caps(stripped)
 
     if tabs == 0 and upper:
-        return 'scene', tabs, stripped
+        heading_type = classify_heading(stripped)
+        return heading_type, tabs, stripped
     elif tabs >= 3 and upper:
         return 'character', tabs, stripped
     elif tabs >= 1:
@@ -49,7 +85,7 @@ def parse_screenplay(filepath):
     classified = [classify_line(line) for line in lines]
 
     # Second pass: group into raw blocks
-    # Block types: title, scene, action, dialogue
+    # Block types: title, scene, shot, stage_direction, action, dialogue
     blocks = []
     title_found = False
     i = 0
@@ -61,8 +97,14 @@ def parse_screenplay(filepath):
             i += 1
             continue
 
-        if ltype == 'scene':
-            blocks.append({'type': 'scene', 'heading': content})
+        if ltype in ('scene', 'shot'):
+            blocks.append({'type': ltype, 'heading': content})
+            i += 1
+            continue
+
+        if ltype == 'stage_direction':
+            # Fold into next dialogue block as a modifier; store for now
+            blocks.append({'type': 'stage_direction', 'text': content.rstrip(':').strip()})
             i += 1
             continue
 
@@ -82,7 +124,7 @@ def parse_screenplay(filepath):
                 if dt == 'blank':
                     i += 1
                     break
-                if dt in ('scene', 'character'):
+                if dt in ('scene', 'shot', 'stage_direction', 'character'):
                     break
                 dialogue_lines.append(dcontent)
                 i += 1
@@ -103,7 +145,7 @@ def parse_screenplay(filepath):
                 if at == 'blank':
                     i += 1
                     break
-                if at in ('scene', 'character'):
+                if at in ('scene', 'shot', 'stage_direction', 'character'):
                     break
                 action_lines.append(acontent)
                 i += 1
@@ -112,44 +154,83 @@ def parse_screenplay(filepath):
 
         i += 1
 
-    # Third pass: organize blocks into scenes
+    # Third pass: organize blocks into corpus -> scene -> shot -> paragraphs
+    # A pending stage_direction modifies the next dialogue paragraph
     scenes = []
-    current_scene = {'heading': 'PROLOGUE', 'index': 0, 'paragraphs': []}
+    current_scene = None
+    current_shot = None
+    scene_index = 0
+    shot_index = 0
     para_index = 0
+    pending_stage_dir = None
+
+    def ensure_scene():
+        nonlocal current_scene, current_shot, scene_index, shot_index, para_index
+        if current_scene is None:
+            scene_index += 1
+            current_scene = {'heading': 'PROLOGUE', 'index': scene_index, 'shots': []}
+            current_shot = None
+
+    def ensure_shot(heading=''):
+        nonlocal current_shot, shot_index, para_index
+        ensure_scene()
+        if current_shot is None:
+            shot_index += 1
+            current_shot = {'heading': heading, 'index': shot_index, 'paragraphs': []}
+            current_scene['shots'].append(current_shot)
+            para_index = 0
+
+    def add_paragraph(para):
+        ensure_shot()
+        para_index_local = len(current_shot['paragraphs']) + 1
+        para['index'] = para_index_local
+        current_shot['paragraphs'].append(para)
 
     for block in blocks:
         if block['type'] == 'title':
             continue
 
         if block['type'] == 'scene':
-            if current_scene['paragraphs']:
+            if current_scene is not None:
                 scenes.append(current_scene)
-            current_scene = {
-                'heading': block['heading'],
-                'index': len(scenes) + 1,
-                'paragraphs': []
-            }
+            scene_index += 1
+            current_scene = {'heading': block['heading'], 'index': scene_index, 'shots': []}
+            current_shot = None
+            shot_index = 0
             para_index = 0
             continue
 
+        if block['type'] == 'shot':
+            ensure_scene()
+            shot_index += 1
+            current_shot = {'heading': block['heading'], 'index': shot_index, 'paragraphs': []}
+            current_scene['shots'].append(current_shot)
+            para_index = 0
+            continue
+
+        if block['type'] == 'stage_direction':
+            pending_stage_dir = block['text']
+            continue
+
         if block['type'] == 'action':
-            para_index += 1
-            current_scene['paragraphs'].append({
-                'type': 'action',
-                'index': para_index,
-                'text': ' '.join(block['lines'])
-            })
+            para = {'type': 'action', 'text': ' '.join(block['lines'])}
+            if pending_stage_dir:
+                para['direction'] = pending_stage_dir
+                pending_stage_dir = None
+            add_paragraph(para)
 
         if block['type'] == 'dialogue':
-            para_index += 1
-            current_scene['paragraphs'].append({
+            para = {
                 'type': 'dialogue',
                 'speaker': block['speaker'],
-                'index': para_index,
                 'text': ' '.join(block['lines'])
-            })
+            }
+            if pending_stage_dir:
+                para['direction'] = pending_stage_dir
+                pending_stage_dir = None
+            add_paragraph(para)
 
-    if current_scene['paragraphs']:
+    if current_scene is not None:
         scenes.append(current_scene)
 
     return {
