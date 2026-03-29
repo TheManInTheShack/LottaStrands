@@ -1,0 +1,19 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scenes/SceneList.gd" id="1"]
+
+[node name="SceneList" type="VBoxContainer"]
+script = ExtResource("1")
+
+[node name="HeaderLabel" type="Label" parent="."]
+layout_mode = 2
+text = "Scenes"
+theme_override_font_sizes/font_size = 14
+
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="List" type="VBoxContainer" parent="ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3

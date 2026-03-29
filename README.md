@@ -1,34 +1,51 @@
 # LottaStrands
 There's a lotta strands in the ol' Duder's head.
 
-This is an examination of the script to The Big Lebowski, as an example of a generalized system for analyzing stories from a data-oriented perspective.
+This is a generalized system for storing and analyzing knowledge about narratives, using the screenplay of The Big Lebowski as a primary example. The goal is to produce a **property graph** — a structured knowledge graph of nodes and edges with properties — that captures the full narrative in a queryable, extensible form. Other narratives (novels, series, comics, etc.) are equally valid inputs.
+
+## Core goal: the knowledge graph
+The primary artifact of this system is a property graph representing the narrative. Nodes are things (text units, characters, locations, events, terms, tags). Edges are relationships (`CONTAINS`, `PRECEDES`, `MENTIONS`, `OCCURS_AT`, `IS_A`, etc.). Both nodes and edges carry properties.
+
+The graph is built in stages — parsed from source, structured into a hierarchy, enriched with vocabulary and annotation — and ultimately intended for use with Neo4j, though the initial representation is a Python dict of nodes and an adjacency list serialized to JSON.
 
 ## Workflow
 ### Stage 1: Parse
-This is different for each project, but the idea is to take whatever the starting form and put it into a common hierarchical format
+Convert the raw source (screenplay, novel, etc.) into a common hierarchical JSON format, according to the hierarchy configuration for that corpus type.
 
 ### Stage 2: Ingest
-Regardless of the pre-parse origin, this takes that output and reconfigures it as a series of tables, saved in two Excel files for direction interaction (though this will eventually become little sql databases).  One of the output documents is an intermediate 'cleaning' stage, allowing pruning and editing of the original input.  The other output is a 'narrative map' which shows a viewpoint of each level of the hierarchy.
+Transform the parsed hierarchy into the property graph structure. Build the lexicon from sentence-level text. Output the graph as JSON and optionally as human-readable Excel.
 
 ### Stage 3: Interaction
-This is an interactive dashboard system, built in Python with Plotly/Dash, that reads the ingested data from step 2 and allows organized tagging and annotation of the hierarchical data, allowing enrichment.
+A Godot-based interface for visualizing and interacting with the graph — navigating the narrative hierarchy, exploring relationships, and annotating nodes with ontological tags.
 
 ### Stage 4: Analysis
-As an adjunct to the same dashboard, there are other views that act as outputs - various ways of looking at timelines, settings and linguistic analyses.
+Derived views and outputs from the graph: timelines, location maps, character networks, linguistic analyses, and other context views.
 
 
 ## Narrative hierarchy
-The hierarchy is basically a way of precisely indexing each bit of the subject - we think of the 'sentence' as the base level - from there we can roll it up into 'paragraphs', 'sceneces' and 'chapters'. Since there might be multiple inputs making up a subject, we think of each of those as a 'volume', and the entire thing is the 'corpus'.  From the base sentence level we can also drill down into 'words', which have along with them part of speech and are the bottom of the hierarchy.  For different subjects, one or more levels might not be necessary - that's fine, it's just down to what the parsing steps does, but the whole hierarchy will be treated in the formal system.
+The hierarchy is a **configurable** ordered set of levels, defined per corpus type. The sentence is the atomic text unit — the lowest level of the hierarchy proper. Below the sentence, unique terms form the lexicon (not individual word occurrence nodes). Different media use different level names:
+
+- Film trilogy: `Corpus → Series → Film → Scene → Paragraph → Sentence`
+- Novel series: `Corpus → Series → Novel → Chapter → Section → Paragraph → Sentence`
+- Comic: `Corpus → Series → Issue → Page → Panel → Balloon → Sentence`
+
+The default hierarchy (used here for The Big Lebowski):
 - Corpus
 - Volume
-- Chapter
 - Scene
 - Paragraph
 - Sentence
-- Word
+
+Each level node connects downward via `CONTAINS` edges and sideways via `PRECEDES`/`FOLLOWS` edges to siblings, encoding both structure and sequence.
 
 ## Vocabulary - Lexicon, Ontology, Taxonomy
-From the words level, we can aggregate to a list of the unique terms and look at them as the basis of a vocabulary system - this is the 'lexicon'.  The items in the lexicon can be tagged individually to attach appropriate meanings - this the 'ontology'.  The confluence of the tags in the ontology is a final structure on top of this, that's the 'taxonomy'.  All of this part makes up the basis of any advanced analysis - it's the building blocks which are derived from (and could reconstruct) the text.
+These three layers sit on top of the hierarchy and together form the semantic enrichment of the graph:
+
+- **Lexicon** — the raw terms as nodes, one per unique word form (e.g. `"dude"`, `"rug"`, `"walter"`). Sentence nodes connect to term nodes via `CONTAINS` edges carrying occurrence properties (position, POS tag, raw form).
+- **Ontology** — edges that assert meaning and relationships between terms and other nodes (e.g. `"dude" IS_A CHARACTER`, `"rug" BELONGS_TO SETTING`, `"walter" KNOWS "dude"`). This is where human annotation enriches the graph.
+- **Taxonomy** — the classification structure itself: the schema of tag types and categories (e.g. `CHARACTER`, `SETTING`, `OBJECT` as nodes belonging to higher category nodes). The taxonomy defines what kinds of ontological assertions are valid.
+
+The taxonomy is the *schema* of tags. The ontology is the *application* of those tags to the lexicon. The lexicon is the raw material. All three live in the same graph as different node and edge types.
 
 ## Taxonomic categories
 The basic elements can be built up with different kinds of tags that can be combined to create major substructures, each of which interacts with each other and could be analyzed on its own in a myriad of different ways.  The idea here is to allow these major items to become formalized into known kinds of useful structures that are common across all/most narratives.
