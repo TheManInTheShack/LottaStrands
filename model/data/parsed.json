@@ -1,7 +1,7 @@
 {
   "title": "The Big Lebowski",
   "corpus_type": "screenplay",
-  "scene_count": 42,
+  "scene_count": 41,
   "scenes": [
     {
       "heading": "PROLOGUE",
@@ -2713,120 +2713,108 @@
             },
             {
               "type": "action",
-              "text": "In his outflung hand lies a cassette case labeled VENICE",
+              "text": "In his outflung hand lies a cassette case labeled VENICE BEACH LEAGUE PLAYOFFS 1987.",
               "index": 2
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "heading": "BEACH LEAGUE PLAYOFFS 1987.",
-      "index": 10,
-      "shots": [
-        {
-          "heading": "",
-          "index": 1,
-          "paragraphs": [
+            },
             {
               "type": "action",
               "text": "The Dude absently licks his lips as we faintly hear a hall rumbling down the lane.  On its impact with the pins, the Dude opens his eyes.",
-              "index": 1
-            },
-            {
-              "type": "action",
-              "text": "He screams.",
-              "index": 2
-            },
-            {
-              "type": "action",
-              "text": "A blonde woman looms over him.  Next to  her a  young man in paint-spattered denims stoops and swings something towards the carrier.",
               "index": 3
             },
             {
               "type": "action",
-              "text": "The sap catches the Dude on the chin and sends  his head thunking back onto the rug.",
+              "text": "He screams.",
               "index": 4
             },
             {
               "type": "action",
-              "text": "A million stars explode against a field of black.  We hear the \"La-la-la-la\" of The Man in Me.",
+              "text": "A blonde woman looms over him.  Next to  her a  young man in paint-spattered denims stoops and swings something towards the carrier.",
               "index": 5
             },
             {
               "type": "action",
-              "text": "The black field  dissolves into  the pattern  of the  rug. The rug rolls away to reveal an aerial view of  the city  of Los  Angeles at twilight, moving below us at great speed.",
+              "text": "The sap catches the Dude on the chin and sends  his head thunking back onto the rug.",
               "index": 6
             },
             {
               "type": "action",
-              "text": "The Dude is flying over the city, his arms thrown out in front of him, the wind whipping his hair and billowing his bowling shirt. He looks up.",
+              "text": "A million stars explode against a field of black.  We hear the \"La-la-la-la\" of The Man in Me.",
               "index": 7
             },
             {
               "type": "action",
-              "text": "Ahead the mysterious blonde woman wings away, riding on the Dude's rug like a sheik on a magic carpet.  She is outpacing us, growing smaller.",
+              "text": "The black field  dissolves into  the pattern  of the  rug. The rug rolls away to reveal an aerial view of  the city  of Los  Angeles at twilight, moving below us at great speed.",
               "index": 8
             },
             {
               "type": "action",
-              "text": "The Dude does a couple of lazy crawl strokes and then notices that a bowling ball has materialized in his forward hand. His bemusement turns to concern over the aerodynamic implications just as the ball seems to suddenly assume its weight, abruptly snapping his arm down, and him after it. He is falling. From a high angle we see the Dude hurtling down toward the city, dragged by the ball.",
+              "text": "The Dude is flying over the city, his arms thrown out in front of him, the wind whipping his hair and billowing his bowling shirt. He looks up.",
               "index": 9
             },
             {
               "type": "action",
-              "text": "A  reverse  looking  up shows  the Dude  hurtling toward  us out  of the inky  sky,  his eyes  wide with  horror.  Led by the bowling  ball, he zooms past the camera leaving us in black.",
+              "text": "Ahead the mysterious blonde woman wings away, riding on the Dude's rug like a sheik on a magic carpet.  She is outpacing us, growing smaller.",
               "index": 10
             },
             {
               "type": "action",
-              "text": "We hear a distant rumble, like thunder.  Dull reflections materialize in the darkness.  They are glints off the shiny surface of an oncoming bowling ball.",
+              "text": "The Dude does a couple of lazy crawl strokes and then notices that a bowling ball has materialized in his forward hand. His bemusement turns to concern over the aerodynamic implications just as the ball seems to suddenly assume its weight, abruptly snapping his arm down, and him after it. He is falling. From a high angle we see the Dude hurtling down toward the city, dragged by the ball.",
               "index": 11
             },
             {
               "type": "action",
-              "text": "We pull back to reveal that the blackness was the inside of a ball return, and the gleaming bowling ball is being regurgitated up at us, overtaking us.",
+              "text": "A  reverse  looking  up shows  the Dude  hurtling toward  us out  of the inky  sky,  his eyes  wide with  horror.  Led by the bowling  ball, he zooms past the camera leaving us in black.",
               "index": 12
             },
             {
               "type": "action",
-              "text": "The Dude looks up, up, up at the looming ball, its mass rolling a huge shadow across his face.",
+              "text": "We hear a distant rumble, like thunder.  Dull reflections materialize in the darkness.  They are glints off the shiny surface of an oncoming bowling ball.",
               "index": 13
             },
             {
               "type": "action",
-              "text": "The gleaming ball shows three dead black holes rolling toward us --finger holes.",
+              "text": "We pull back to reveal that the blackness was the inside of a ball return, and the gleaming bowling ball is being regurgitated up at us, overtaking us.",
               "index": 14
             },
             {
               "type": "action",
-              "text": "The largest--thumb--hole rolls directly over us, engulfing us once again in black..",
+              "text": "The Dude looks up, up, up at the looming ball, its mass rolling a huge shadow across his face.",
               "index": 15
             },
             {
               "type": "action",
-              "text": "The black rolls away and we are spinning--spinning down a bowling lane--our point of view that of someone trapped in the thumbhole of the rolling ball.",
+              "text": "The gleaming ball shows three dead black holes rolling toward us --finger holes.",
               "index": 16
             },
             {
               "type": "action",
-              "text": "We see the receding bowler spinning away.  It is the blonde woman, performing her follow-through.",
+              "text": "The largest--thumb--hole rolls directly over us, engulfing us once again in black..",
               "index": 17
             },
             {
               "type": "action",
-              "text": "Floor spins up at us and then away; ceiling spins up and away; the length of the alley with pins at the end; floor; ceiling; approaching pins; again and again.",
+              "text": "The black rolls away and we are spinning--spinning down a bowling lane--our point of view that of someone trapped in the thumbhole of the rolling ball.",
               "index": 18
             },
             {
               "type": "action",
-              "text": "We hit the pins and clatter into blackness.  We hear pins spin, hit each other and drop.",
+              "text": "We see the receding bowler spinning away.  It is the blonde woman, performing her follow-through.",
               "index": 19
             },
             {
               "type": "action",
-              "text": "We hear an irritating, insistent beeping.",
+              "text": "Floor spins up at us and then away; ceiling spins up and away; the length of the alley with pins at the end; floor; ceiling; approaching pins; again and again.",
               "index": 20
+            },
+            {
+              "type": "action",
+              "text": "We hit the pins and clatter into blackness.  We hear pins spin, hit each other and drop.",
+              "index": 21
+            },
+            {
+              "type": "action",
+              "text": "We hear an irritating, insistent beeping.",
+              "index": 22
             }
           ]
         },
@@ -2952,7 +2940,7 @@
     },
     {
       "heading": "DUDE'S CAR",
-      "index": 11,
+      "index": 10,
       "shots": [
         {
           "heading": "",
@@ -3264,7 +3252,7 @@
     },
     {
       "heading": "A HIGHWAY SIGN:  SIMI VALLEY ROAD",
-      "index": 12,
+      "index": 11,
       "shots": [
         {
           "heading": "",
@@ -3521,7 +3509,7 @@
     },
     {
       "heading": "INSIDE THE CAR",
-      "index": 13,
+      "index": 12,
       "shots": [
         {
           "heading": "",
@@ -3610,7 +3598,7 @@
     },
     {
       "heading": "BOWLING LANE",
-      "index": 14,
+      "index": 13,
       "shots": [
         {
           "heading": "",
@@ -3990,7 +3978,7 @@
     },
     {
       "heading": "DUDE'S LIVING ROOM",
-      "index": 15,
+      "index": 14,
       "shots": [
         {
           "heading": "",
@@ -4904,7 +4892,7 @@
     },
     {
       "heading": "COFFEE SHOP",
-      "index": 16,
+      "index": 15,
       "shots": [
         {
           "heading": "",
@@ -5391,7 +5379,7 @@
     },
     {
       "heading": "BOWLING ALLEY BAR",
-      "index": 17,
+      "index": 16,
       "shots": [
         {
           "heading": "",
@@ -5846,7 +5834,7 @@
     },
     {
       "heading": "MAUDE'S LOFT",
-      "index": 18,
+      "index": 17,
       "shots": [
         {
           "heading": "",
@@ -6141,7 +6129,7 @@
     },
     {
       "heading": "DUDE'S CAR",
-      "index": 19,
+      "index": 18,
       "shots": [
         {
           "heading": "",
@@ -6191,7 +6179,7 @@
     },
     {
       "heading": "THE STREET",
-      "index": 20,
+      "index": 19,
       "shots": [
         {
           "heading": "",
@@ -6208,7 +6196,7 @@
     },
     {
       "heading": "INSIDE THE CAR",
-      "index": 21,
+      "index": 20,
       "shots": [
         {
           "heading": "",
@@ -6262,7 +6250,7 @@
     },
     {
       "heading": "CRANE JACKSON'S FOUNTAIN STREET THEATER",
-      "index": 22,
+      "index": 21,
       "shots": [
         {
           "heading": "",
@@ -6433,7 +6421,7 @@
     },
     {
       "heading": "RESIDENTIAL AREA",
-      "index": 23,
+      "index": 22,
       "shots": [
         {
           "heading": "",
@@ -6462,7 +6450,7 @@
     },
     {
       "heading": "THE FRONT DOOR",
-      "index": 24,
+      "index": 23,
       "shots": [
         {
           "heading": "",
@@ -6921,7 +6909,7 @@
     },
     {
       "heading": "INSIDE THE CAR",
-      "index": 25,
+      "index": 24,
       "shots": [
         {
           "heading": "",
@@ -6944,7 +6932,7 @@
     },
     {
       "heading": "THE DUDE'S CAR",
-      "index": 26,
+      "index": 25,
       "shots": [
         {
           "heading": "",
@@ -6976,7 +6964,7 @@
     },
     {
       "heading": "DUDE'S BUNGALOW",
-      "index": 27,
+      "index": 26,
       "shots": [
         {
           "heading": "",
@@ -7061,7 +7049,7 @@
     },
     {
       "heading": "MALIBU BEACH",
-      "index": 28,
+      "index": 27,
       "shots": [
         {
           "heading": "",
@@ -7105,7 +7093,7 @@
     },
     {
       "heading": "INSIDE THE BEACH HOUSE",
-      "index": 29,
+      "index": 28,
       "shots": [
         {
           "heading": "",
@@ -7445,7 +7433,7 @@
     },
     {
       "heading": "SQUAD CAR",
-      "index": 30,
+      "index": 29,
       "shots": [
         {
           "heading": "",
@@ -7468,7 +7456,7 @@
     },
     {
       "heading": "CHIEF'S OFFICE",
-      "index": 31,
+      "index": 30,
       "shots": [
         {
           "heading": "",
@@ -7666,7 +7654,7 @@
     },
     {
       "heading": "THE STREET",
-      "index": 32,
+      "index": 31,
       "shots": [
         {
           "heading": "",
@@ -7683,7 +7671,7 @@
     },
     {
       "heading": "INSIDE THE OTHER CAR",
-      "index": 33,
+      "index": 32,
       "shots": [
         {
           "heading": "",
@@ -7700,7 +7688,7 @@
     },
     {
       "heading": "THE FOOTWELL",
-      "index": 34,
+      "index": 33,
       "shots": [
         {
           "heading": "",
@@ -7727,7 +7715,7 @@
     },
     {
       "heading": "DUDE'S BUNGALOW",
-      "index": 35,
+      "index": 34,
       "shots": [
         {
           "heading": "",
@@ -8117,7 +8105,7 @@
     },
     {
       "heading": "LIVING ROOM",
-      "index": 36,
+      "index": 35,
       "shots": [
         {
           "heading": "",
@@ -8514,7 +8502,7 @@
     },
     {
       "heading": "DENNY'S",
-      "index": 37,
+      "index": 36,
       "shots": [
         {
           "heading": "",
@@ -8576,7 +8564,7 @@
     },
     {
       "heading": "WALTER'S CAR",
-      "index": 38,
+      "index": 37,
       "shots": [
         {
           "heading": "",
@@ -8731,7 +8719,7 @@
     },
     {
       "heading": "THE LEBOWSKI MANSION",
-      "index": 39,
+      "index": 38,
       "shots": [
         {
           "heading": "",
@@ -8844,7 +8832,7 @@
     },
     {
       "heading": "THE GREAT ROOM",
-      "index": 40,
+      "index": 39,
       "shots": [
         {
           "heading": "",
@@ -9248,7 +9236,7 @@
     },
     {
       "heading": "BOWLING ALLEY PARKING LOT",
-      "index": 41,
+      "index": 40,
       "shots": [
         {
           "heading": "",
@@ -10266,7 +10254,7 @@
     },
     {
       "heading": "BAR AREA",
-      "index": 42,
+      "index": 41,
       "shots": [
         {
           "heading": "",
