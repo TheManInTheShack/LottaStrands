@@ -1,0 +1,76 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scenes/SceneDetail.gd" id="1"]
+
+[node name="SceneDetail" type="VBoxContainer"]
+script = ExtResource("1")
+
+[node name="PlaceholderLabel" type="Label" parent="."]
+layout_mode = 2
+text = "Select a scene from the list."
+
+[node name="Meta" type="VBoxContainer" parent="."]
+layout_mode = 2
+visible = false
+
+[node name="MetaHeader" type="Label" parent="Meta"]
+layout_mode = 2
+text = "SCENE"
+theme_override_font_sizes/font_size = 13
+
+[node name="Grid" type="GridContainer" parent="Meta"]
+layout_mode = 2
+columns = 2
+
+[node name="IndexLabel" type="Label" parent="Meta/Grid"]
+layout_mode = 2
+text = "Index"
+
+[node name="IndexValue" type="Label" parent="Meta/Grid"]
+layout_mode = 2
+text = ""
+
+[node name="HeadingLabel" type="Label" parent="Meta/Grid"]
+layout_mode = 2
+text = "Heading"
+
+[node name="HeadingValue" type="Label" parent="Meta/Grid"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = ""
+clip_text = true
+
+[node name="ShotsLabel" type="Label" parent="Meta/Grid"]
+layout_mode = 2
+text = "Shots"
+
+[node name="ShotsValue" type="Label" parent="Meta/Grid"]
+layout_mode = 2
+text = ""
+
+[node name="ParagraphsLabel" type="Label" parent="Meta/Grid"]
+layout_mode = 2
+text = "Paragraphs"
+
+[node name="ParagraphsValue" type="Label" parent="Meta/Grid"]
+layout_mode = 2
+text = ""
+
+[node name="Sep" type="HSeparator" parent="."]
+layout_mode = 2
+visible = false
+
+[node name="Content" type="VBoxContainer" parent="."]
+layout_mode = 2
+size_flags_vertical = 3
+visible = false
+
+[node name="ContentHeader" type="Label" parent="Content"]
+layout_mode = 2
+text = "CONTENT"
+theme_override_font_sizes/font_size = 13
+
+[node name="ContentText" type="TextEdit" parent="Content"]
+layout_mode = 2
+size_flags_vertical = 3
+wrap_mode = 1

@@ -12,8 +12,14 @@ signal request_failed(endpoint: String, error: String)
 
 # --- Public API ---
 
+func get_corpus() -> void:
+	_http_get("/corpus")
+
 func get_scenes() -> void:
 	_http_get("/scenes")
+
+func get_scene_detail(index: int) -> void:
+	_http_get("/scenes/%d" % index)
 
 func get_graph() -> void:
 	_http_get("/graph")
