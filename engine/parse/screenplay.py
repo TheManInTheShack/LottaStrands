@@ -22,7 +22,14 @@ SHOT_KEYWORDS = {
     'WIDER', 'WIDE', 'CLOSE', 'CLOSER', 'TRACKING', 'TRACK', 'REVERSE',
     'POV', 'ANGLE', 'SHOT', 'CRANE', 'PAN', 'TILT', 'DOLLY', 'FADE',
     'CUT', 'BLACK', 'BLACKNESS', 'PINS', 'FLASH', 'FLASHBACK',
-    'CRASH', 'SLOW', 'FAST'
+    'CRASH', 'SLOW', 'FAST', 'BACK'
+}
+
+# If a heading STARTS with one of these words it is always a shot,
+# even if it also contains location keywords
+SHOT_OPENERS = {
+    'WIDER', 'WIDE', 'CLOSE', 'CLOSER', 'TRACKING', 'TRACK', 'REVERSE',
+    'BACK', 'FADE', 'CUT', 'SLOW', 'FAST'
 }
 
 # Patterns that indicate a true scene heading (location change)
@@ -47,6 +54,10 @@ def classify_heading(text):
     """Classify an ALL CAPS zero-indent line as scene, shot, or stage_direction."""
     if text.endswith(':'):
         return 'stage_direction'
+    # If it opens with a camera/movement word, it's always a shot
+    first_word = re.split(r'[\s\-]', text)[0]
+    if first_word in SHOT_OPENERS:
+        return 'shot'
     if any(p.search(text) for p in SCENE_PATTERNS):
         return 'scene'
     words = set(re.findall(r'[A-Z]+', text))
