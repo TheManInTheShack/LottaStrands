@@ -49,11 +49,10 @@ split_offset = 320
 [node name="SceneListPanel" type="PanelContainer" parent="VBox/Body"]
 layout_mode = 2
 
-[node name="SceneList" type="VBoxContainer" parent="VBox/Body/SceneListPanel"]
+[node name="SceneList" parent="VBox/Body/SceneListPanel" instance=ExtResource("2")]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-script = ExtResource("2")
 
 [node name="DetailPanel" type="PanelContainer" parent="VBox/Body"]
 layout_mode = 2
