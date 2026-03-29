@@ -1,0 +1,21 @@
+; Engine configuration file.
+; Edit via the Godot editor or directly here.
+; Format: [section] then option=value pairs.
+
+config_version=5
+
+[application]
+
+config/name="LottaStrands"
+config/description="Narrative knowledge graph interface"
+run/main_scene="res://scenes/Main.tscn"
+config/features=PackedStringArray("4.3")
+
+[autoload]
+
+API="*res://autoloads/API.gd"
+AppState="*res://autoloads/AppState.gd"
+
+[rendering]
+
+renderer/rendering_method="mobile"
