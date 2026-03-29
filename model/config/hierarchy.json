@@ -1,0 +1,14 @@
+{
+  "name": "lottastrands",
+  "title": "The Big Lebowski",
+  "corpus_type": "screenplay",
+  "parse_template": "screenplay",
+  "levels": ["corpus", "scene", "paragraph", "sentence"],
+  "source": {
+    "title": "The Big Lebowski",
+    "file": "the_big_lebowski.txt",
+    "format": "screenplay",
+    "year": 1998,
+    "authors": ["Joel Coen", "Ethan Coen"]
+  }
+}
