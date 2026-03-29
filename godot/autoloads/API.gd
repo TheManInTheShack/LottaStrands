@@ -13,16 +13,16 @@ signal request_failed(endpoint: String, error: String)
 # --- Public API ---
 
 func get_scenes() -> void:
-	_get("/scenes")
+	_http_get("/scenes")
 
 func get_graph() -> void:
-	_get("/graph")
+	_http_get("/graph")
 
 func get_operations() -> void:
-	_get("/curate/operations")
+	_http_get("/curate/operations")
 
 func merge_scenes(indices: Array, heading: String) -> void:
-	_post("/curate/merge", {
+	_http_post("/curate/merge", {
 		"level": "scene",
 		"indices": indices,
 		"heading": heading
@@ -30,7 +30,7 @@ func merge_scenes(indices: Array, heading: String) -> void:
 
 func split_scene(index: int, at_child_index: int,
 				 heading_before: String, heading_after: String) -> void:
-	_post("/curate/split", {
+	_http_post("/curate/split", {
 		"level": "scene",
 		"index": index,
 		"at_child_index": at_child_index,
@@ -39,22 +39,22 @@ func split_scene(index: int, at_child_index: int,
 	})
 
 func rename_scene(index: int, heading: String) -> void:
-	_post("/curate/rename", {
+	_http_post("/curate/rename", {
 		"level": "scene",
 		"index": index,
 		"heading": heading
 	})
 
 func save_curated() -> void:
-	_post("/curate/save", {})
+	_http_post("/curate/save", {})
 
 func reload_graph() -> void:
-	_post("/curate/reload", {})
+	_http_post("/curate/reload", {})
 
 
 # --- Internals ---
 
-func _get(endpoint: String) -> void:
+func _http_get(endpoint: String) -> void:
 	var http := HTTPRequest.new()
 	add_child(http)
 	http.request_completed.connect(
@@ -66,7 +66,7 @@ func _get(endpoint: String) -> void:
 		http.queue_free()
 
 
-func _post(endpoint: String, body: Dictionary) -> void:
+func _http_post(endpoint: String, body: Dictionary) -> void:
 	var http := HTTPRequest.new()
 	add_child(http)
 	http.request_completed.connect(
