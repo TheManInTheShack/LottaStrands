@@ -23,6 +23,18 @@ def ingest(parsed, config):
         'corpus_type': config['corpus_type']
     })
 
+    # Volume node (sits between Corpus and Scene)
+    src = config['source']
+    volume = g.create_node(['Volume'], {
+        'title': src['title'],
+        'type': src['type'],
+        'year': src.get('year'),
+        'authors': src.get('authors', []),
+        'format': src.get('format'),
+        'url': src.get('url')
+    })
+    g.create_edge('CONTAINS', corpus.id, volume.id)
+
     # Term registry: normalized text -> Node
     terms = {}
 
@@ -80,7 +92,7 @@ def ingest(parsed, config):
             'heading': scene_data['heading'],
             'index': scene_data['index']
         })
-        g.create_edge('CONTAINS', corpus.id, scene.id, {'index': scene_data['index']})
+        g.create_edge('CONTAINS', volume.id, scene.id, {'index': scene_data['index']})
         if prev_scene_node:
             g.create_edge('PRECEDES', prev_scene_node.id, scene.id)
         prev_scene_node = scene

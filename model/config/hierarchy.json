@@ -3,12 +3,14 @@
   "title": "The Big Lebowski",
   "corpus_type": "screenplay",
   "parse_template": "screenplay",
-  "levels": ["corpus", "scene", "shot", "paragraph", "sentence"],
+  "levels": ["corpus", "volume", "scene", "shot", "paragraph", "sentence"],
   "source": {
     "title": "The Big Lebowski",
+    "type": "screenplay",
     "file": "the_big_lebowski.txt",
-    "format": "screenplay",
     "year": 1998,
-    "authors": ["Joel Coen", "Ethan Coen"]
+    "authors": ["Joel Coen", "Ethan Coen"],
+    "format": "plain text",
+    "url": "https://imsdb.com/scripts/Big-Lebowski,-The.html"
   }
 }
