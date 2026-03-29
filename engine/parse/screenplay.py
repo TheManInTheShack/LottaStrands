@@ -20,9 +20,9 @@ from pathlib import Path
 # Words that indicate a camera/framing shot rather than a location scene
 SHOT_KEYWORDS = {
     'WIDER', 'WIDE', 'CLOSE', 'CLOSER', 'TRACKING', 'TRACK', 'REVERSE',
-    'POV', 'ANGLE', 'SHOT', 'CRANE', 'PAN', 'TILT', 'DOLLY', 'FADE',
+    'POV', 'ANGLE', 'SHOT', 'PAN', 'TILT', 'DOLLY', 'FADE',
     'CUT', 'BLACK', 'BLACKNESS', 'PINS', 'FLASH', 'FLASHBACK',
-    'CRASH', 'SLOW', 'FAST', 'BACK'
+    'CRASH', 'SLOW', 'FAST', 'BACK', 'SIGN'
 }
 
 # If a heading STARTS with one of these words it is always a shot,
@@ -58,11 +58,12 @@ def classify_heading(text):
     first_word = re.split(r'[\s\-]', text)[0]
     if first_word in SHOT_OPENERS:
         return 'shot'
-    if any(p.search(text) for p in SCENE_PATTERNS):
-        return 'scene'
+    # Check shot keywords before location patterns — shot keywords win on conflict
     words = set(re.findall(r'[A-Z]+', text))
     if words & SHOT_KEYWORDS:
         return 'shot'
+    if any(p.search(text) for p in SCENE_PATTERNS):
+        return 'scene'
     # Default: treat as shot (conservative — keeps scenes clean)
     return 'shot'
 

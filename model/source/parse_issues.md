@@ -5,14 +5,14 @@ Each entry describes the issue, its location, and the proposed resolution.
 
 ---
 
-## Issue 001
+## Issue 001 ✓ RESOLVED
 **Heading:** `A HIGHWAY SIGN:  SIMI VALLEY ROAD` (scene 12)
-**Issue:** Contains a colon mid-string (not at the end), so it was not
-caught by the stage_direction classifier. It is a shot description, not
-a scene, but currently classified as a scene because `ROAD` is not in
-the location keyword list and no shot opener word appears at the start.
-**Proposed fix:** Detect colons anywhere in the heading (not just at end)
-as a stage direction signal, or add `SIGN` to the shot keywords.
+**Issue:** Colon mid-string not caught by stage_direction classifier;
+HIGHWAY matched location patterns causing false scene classification.
+**Fix:** Added SIGN to SHOT_KEYWORDS and moved SHOT_KEYWORDS check before
+SCENE_PATTERNS in classify_heading so shot keywords win on conflict.
+Removed CRANE from SHOT_KEYWORDS to avoid false positive with
+CRANE JACKSON'S FOUNTAIN STREET THEATER (proper name, not camera move).
 
 ## Issue 002 ✓ RESOLVED
 **Heading:** `COFFEE SHOP` (scene 16)

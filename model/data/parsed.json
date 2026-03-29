@@ -1,7 +1,7 @@
 {
   "title": "The Big Lebowski",
   "corpus_type": "screenplay",
-  "scene_count": 44,
+  "scene_count": 43,
   "scenes": [
     {
       "heading": "PROLOGUE",
@@ -3247,16 +3247,10 @@
               "index": 52
             }
           ]
-        }
-      ]
-    },
-    {
-      "heading": "A HIGHWAY SIGN:  SIMI VALLEY ROAD",
-      "index": 11,
-      "shots": [
+        },
         {
-          "heading": "",
-          "index": 1,
+          "heading": "A HIGHWAY SIGN:  SIMI VALLEY ROAD",
+          "index": 2,
           "paragraphs": [
             {
               "type": "action",
@@ -3496,7 +3490,7 @@
         },
         {
           "heading": "OUTSIDE",
-          "index": 2,
+          "index": 3,
           "paragraphs": [
             {
               "type": "action",
@@ -3509,7 +3503,7 @@
     },
     {
       "heading": "INSIDE THE CAR",
-      "index": 12,
+      "index": 11,
       "shots": [
         {
           "heading": "",
@@ -3598,7 +3592,7 @@
     },
     {
       "heading": "BOWLING LANE",
-      "index": 13,
+      "index": 12,
       "shots": [
         {
           "heading": "",
@@ -3978,7 +3972,7 @@
     },
     {
       "heading": "DUDE'S LIVING ROOM",
-      "index": 14,
+      "index": 13,
       "shots": [
         {
           "heading": "",
@@ -4892,7 +4886,7 @@
     },
     {
       "heading": "COFFEE SHOP",
-      "index": 15,
+      "index": 14,
       "shots": [
         {
           "heading": "",
@@ -5069,7 +5063,7 @@
     },
     {
       "heading": "DUDE'S BATHROOM",
-      "index": 16,
+      "index": 15,
       "shots": [
         {
           "heading": "",
@@ -5301,7 +5295,7 @@
     },
     {
       "heading": "NORTH HOLLYWOOD AUTO CIRCUS",
-      "index": 17,
+      "index": 16,
       "shots": [
         {
           "heading": "",
@@ -5391,7 +5385,7 @@
     },
     {
       "heading": "BOWLING ALLEY BAR",
-      "index": 18,
+      "index": 17,
       "shots": [
         {
           "heading": "",
@@ -5846,7 +5840,7 @@
     },
     {
       "heading": "MAUDE'S LOFT",
-      "index": 19,
+      "index": 18,
       "shots": [
         {
           "heading": "",
@@ -6141,7 +6135,7 @@
     },
     {
       "heading": "DUDE'S CAR",
-      "index": 20,
+      "index": 19,
       "shots": [
         {
           "heading": "",
@@ -6191,7 +6185,7 @@
     },
     {
       "heading": "THE STREET",
-      "index": 21,
+      "index": 20,
       "shots": [
         {
           "heading": "",
@@ -6208,7 +6202,7 @@
     },
     {
       "heading": "INSIDE THE CAR",
-      "index": 22,
+      "index": 21,
       "shots": [
         {
           "heading": "",
@@ -6262,7 +6256,7 @@
     },
     {
       "heading": "CRANE JACKSON'S FOUNTAIN STREET THEATER",
-      "index": 23,
+      "index": 22,
       "shots": [
         {
           "heading": "",
@@ -6433,7 +6427,7 @@
     },
     {
       "heading": "RESIDENTIAL AREA",
-      "index": 24,
+      "index": 23,
       "shots": [
         {
           "heading": "",
@@ -6462,7 +6456,7 @@
     },
     {
       "heading": "THE FRONT DOOR",
-      "index": 25,
+      "index": 24,
       "shots": [
         {
           "heading": "",
@@ -6921,7 +6915,7 @@
     },
     {
       "heading": "INSIDE THE CAR",
-      "index": 26,
+      "index": 25,
       "shots": [
         {
           "heading": "",
@@ -6944,7 +6938,7 @@
     },
     {
       "heading": "THE DUDE'S CAR",
-      "index": 27,
+      "index": 26,
       "shots": [
         {
           "heading": "",
@@ -6976,7 +6970,7 @@
     },
     {
       "heading": "DUDE'S BUNGALOW",
-      "index": 28,
+      "index": 27,
       "shots": [
         {
           "heading": "",
@@ -7061,7 +7055,7 @@
     },
     {
       "heading": "MALIBU BEACH",
-      "index": 29,
+      "index": 28,
       "shots": [
         {
           "heading": "",
@@ -7105,7 +7099,7 @@
     },
     {
       "heading": "INSIDE THE BEACH HOUSE",
-      "index": 30,
+      "index": 29,
       "shots": [
         {
           "heading": "",
@@ -7445,7 +7439,7 @@
     },
     {
       "heading": "SQUAD CAR",
-      "index": 31,
+      "index": 30,
       "shots": [
         {
           "heading": "",
@@ -7468,7 +7462,7 @@
     },
     {
       "heading": "CHIEF'S OFFICE",
-      "index": 32,
+      "index": 31,
       "shots": [
         {
           "heading": "",
@@ -7603,7 +7597,7 @@
     },
     {
       "heading": "CAB",
-      "index": 33,
+      "index": 32,
       "shots": [
         {
           "heading": "",
@@ -7672,7 +7666,7 @@
     },
     {
       "heading": "THE STREET",
-      "index": 34,
+      "index": 33,
       "shots": [
         {
           "heading": "",
@@ -7689,7 +7683,7 @@
     },
     {
       "heading": "INSIDE THE OTHER CAR",
-      "index": 35,
+      "index": 34,
       "shots": [
         {
           "heading": "",
@@ -7706,7 +7700,7 @@
     },
     {
       "heading": "THE FOOTWELL",
-      "index": 36,
+      "index": 35,
       "shots": [
         {
           "heading": "",
@@ -7733,7 +7727,7 @@
     },
     {
       "heading": "DUDE'S BUNGALOW",
-      "index": 37,
+      "index": 36,
       "shots": [
         {
           "heading": "",
@@ -8123,7 +8117,7 @@
     },
     {
       "heading": "LIVING ROOM",
-      "index": 38,
+      "index": 37,
       "shots": [
         {
           "heading": "",
@@ -8520,7 +8514,7 @@
     },
     {
       "heading": "DENNY'S",
-      "index": 39,
+      "index": 38,
       "shots": [
         {
           "heading": "",
@@ -8582,7 +8576,7 @@
     },
     {
       "heading": "WALTER'S CAR",
-      "index": 40,
+      "index": 39,
       "shots": [
         {
           "heading": "",
@@ -8737,7 +8731,7 @@
     },
     {
       "heading": "THE LEBOWSKI MANSION",
-      "index": 41,
+      "index": 40,
       "shots": [
         {
           "heading": "",
@@ -8850,7 +8844,7 @@
     },
     {
       "heading": "THE GREAT ROOM",
-      "index": 42,
+      "index": 41,
       "shots": [
         {
           "heading": "",
@@ -9254,7 +9248,7 @@
     },
     {
       "heading": "BOWLING ALLEY PARKING LOT",
-      "index": 43,
+      "index": 42,
       "shots": [
         {
           "heading": "",
@@ -10272,7 +10266,7 @@
     },
     {
       "heading": "BAR AREA",
-      "index": 44,
+      "index": 43,
       "shots": [
         {
           "heading": "",
