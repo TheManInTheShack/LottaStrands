@@ -81,7 +81,7 @@ func _populate_volumes(vols: Array) -> void:
 	volumes_panel.visible = true
 
 	for i in vols.size():
-		var vol := vols[i]
+		var vol: Dictionary = vols[i]
 		var lbl := "%s (%s, %s)" % [
 			vol.get("title", ""),
 			vol.get("type", ""),
