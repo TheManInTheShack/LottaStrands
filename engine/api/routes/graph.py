@@ -39,6 +39,33 @@ def get_scenes():
     return result
 
 
+@router.get("/paragraphs")
+def get_paragraphs():
+    g = state.get_graph()
+    scenes = sorted(g.get_nodes_by_label("Scene"),
+                    key=lambda n: n.properties.get("index", 0))
+    result = []
+    for scene in scenes:
+        para_nodes = sorted(
+            [g.nodes[e.to_id] for e in g.get_edges_from(scene.id)
+             if e.type == "CONTAINS"
+             and e.to_id in g.nodes
+             and "Paragraph" in g.nodes[e.to_id].labels],
+            key=lambda n: n.properties.get("index", 0)
+        )
+        for para in para_nodes:
+            result.append({
+                "id": para.id,
+                "index": para.properties.get("index"),
+                "text": para.properties.get("text", ""),
+                "type": para.properties.get("type", "text"),
+                "scene_id": scene.id,
+                "scene_index": scene.properties.get("index"),
+                "scene_heading": scene.properties.get("heading", ""),
+            })
+    return result
+
+
 @router.get("/scenes/{index}")
 def get_scene(index: int):
     g = state.get_graph()

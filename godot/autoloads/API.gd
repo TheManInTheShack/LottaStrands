@@ -21,11 +21,26 @@ func get_scenes() -> void:
 func get_scene_detail(index: int) -> void:
 	_http_get("/scenes/%d" % index)
 
+func get_paragraphs() -> void:
+	_http_get("/paragraphs")
+
 func get_graph() -> void:
 	_http_get("/graph")
 
 func get_operations() -> void:
 	_http_get("/curate/operations")
+
+func create_volume(meta: Dictionary, text: String) -> void:
+	var body := meta.duplicate()
+	body["text"] = text
+	_http_post("/volumes", body)
+
+func insert_marker(before_paragraph_id: String, level: String, heading: String = "") -> void:
+	_http_post("/curate/insert_marker", {
+		"before_paragraph_id": before_paragraph_id,
+		"level": level,
+		"heading": heading,
+	})
 
 func merge_scenes(indices: Array, heading: String) -> void:
 	_http_post("/curate/merge", {

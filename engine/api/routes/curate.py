@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException
 from engine.api import state
-from engine.api.models import MergeRequest, SplitRequest, RenameRequest
+from engine.api.models import MergeRequest, SplitRequest, RenameRequest, InsertMarkerRequest
 from engine.curate import operations
 from engine.graph.model import Graph
 from pathlib import Path
@@ -72,6 +72,53 @@ def rename(req: RenameRequest):
         "heading": req.heading
     })
     return {"status": "ok"}
+
+
+@router.post("/insert_marker")
+def insert_marker(req: InsertMarkerRequest):
+    g = state.get_graph()
+    paragraph = g.nodes.get(req.before_paragraph_id)
+    if not paragraph:
+        raise HTTPException(status_code=404, detail="Paragraph not found")
+
+    parent_edge = next(
+        (e for e in g.get_edges_to(paragraph.id) if e.type == "CONTAINS"), None
+    )
+    if not parent_edge:
+        raise HTTPException(status_code=400, detail="Paragraph has no parent")
+
+    parent = g.nodes.get(parent_edge.from_id)
+    from engine.curate.operations import _get_ordered_children, get_nodes_by_level
+    children = _get_ordered_children(g, parent.id)
+    para_pos = next((i for i, c in enumerate(children) if c.id == paragraph.id), None)
+    if para_pos is None:
+        raise HTTPException(status_code=400, detail="Paragraph not found in parent")
+    if para_pos == 0:
+        raise HTTPException(status_code=400, detail="Cannot insert marker before first paragraph")
+
+    level = req.level
+    parent_index = parent.properties.get("index", 1)
+    scene_count = len(g.get_nodes_by_label("Scene"))
+    heading_after = req.heading or ("Scene %d" % (scene_count + 1))
+    heading_before = parent.properties.get("heading", "")
+
+    try:
+        operations.split_node(
+            g, level, parent_index, para_pos,
+            heading_before, heading_after
+        )
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+    state.add_operation({
+        "op": "split",
+        "level": level,
+        "index": parent_index,
+        "at_child_index": para_pos,
+        "heading_before": heading_before,
+        "heading_after": heading_after,
+    })
+    return {"status": "ok", "scene_count": len(g.get_nodes_by_label("Scene"))}
 
 
 @router.post("/save")

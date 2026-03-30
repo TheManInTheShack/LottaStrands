@@ -17,7 +17,7 @@ anchor_bottom = 1.0
 
 [node name="TitleLabel" type="Label" parent="VBox"]
 layout_mode = 2
-text = "LottaStrands Engine"
+text = "LottaStrands"
 theme_override_font_sizes/font_size = 24
 horizontal_alignment = 1
 
@@ -47,9 +47,16 @@ layout_mode = 2
 text = "VOLUMES"
 theme_override_font_sizes/font_size = 13
 
+[node name="EmptyHint" type="Label" parent="VBox/Body/Left"]
+layout_mode = 2
+text = "No volumes yet. Use \"New Volume\" to add one."
+autowrap_mode = 3
+visible = true
+
 [node name="VolumeList" type="ItemList" parent="VBox/Body/Left"]
 layout_mode = 2
 size_flags_vertical = 3
+visible = false
 
 [node name="Right" type="VBoxContainer" parent="VBox/Body"]
 layout_mode = 2
@@ -62,29 +69,15 @@ theme_override_font_sizes/font_size = 13
 
 [node name="NewVolume" type="Button" parent="VBox/Body/Right"]
 layout_mode = 2
+custom_minimum_size = Vector2(0, 44)
 text = "New Volume"
-disabled = true
-
-[node name="LoadSource" type="Button" parent="VBox/Body/Right"]
-layout_mode = 2
-text = "Load Volume Source"
-disabled = true
-
-[node name="SetType" type="Button" parent="VBox/Body/Right"]
-layout_mode = 2
-text = "Set Type of Volume"
-disabled = true
 
 [node name="Sep2" type="HSeparator" parent="VBox/Body/Right"]
 layout_mode = 2
 
-[node name="Parse" type="Button" parent="VBox/Body/Right"]
-layout_mode = 2
-text = "Parse"
-disabled = true
-
 [node name="Curate" type="Button" parent="VBox/Body/Right"]
 layout_mode = 2
+custom_minimum_size = Vector2(0, 44)
 text = "Curate"
 disabled = true
 
@@ -116,9 +109,112 @@ layout_mode = 2
 text = "Visualization"
 disabled = true
 
+[node name="NewVolumePanel" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+visible = false
+
+[node name="FormVBox" type="VBoxContainer" parent="NewVolumePanel"]
+layout_mode = 2
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="FormTitle" type="Label" parent="NewVolumePanel/FormVBox"]
+layout_mode = 2
+text = "New Volume"
+theme_override_font_sizes/font_size = 20
+horizontal_alignment = 1
+
+[node name="TitleRow" type="HBoxContainer" parent="NewVolumePanel/FormVBox"]
+layout_mode = 2
+
+[node name="TitleLbl" type="Label" parent="NewVolumePanel/FormVBox/TitleRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(80, 0)
+text = "Title"
+vertical_alignment = 1
+
+[node name="TitleInput" type="LineEdit" parent="NewVolumePanel/FormVBox/TitleRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "e.g. The Big Lebowski"
+
+[node name="TypeRow" type="HBoxContainer" parent="NewVolumePanel/FormVBox"]
+layout_mode = 2
+
+[node name="TypeLbl" type="Label" parent="NewVolumePanel/FormVBox/TypeRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(80, 0)
+text = "Type"
+vertical_alignment = 1
+
+[node name="TypeOption" type="OptionButton" parent="NewVolumePanel/FormVBox/TypeRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="YearRow" type="HBoxContainer" parent="NewVolumePanel/FormVBox"]
+layout_mode = 2
+
+[node name="YearLbl" type="Label" parent="NewVolumePanel/FormVBox/YearRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(80, 0)
+text = "Year"
+vertical_alignment = 1
+
+[node name="YearInput" type="LineEdit" parent="NewVolumePanel/FormVBox/YearRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "e.g. 1998"
+
+[node name="AuthorRow" type="HBoxContainer" parent="NewVolumePanel/FormVBox"]
+layout_mode = 2
+
+[node name="AuthorLbl" type="Label" parent="NewVolumePanel/FormVBox/AuthorRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(80, 0)
+text = "Author(s)"
+vertical_alignment = 1
+
+[node name="AuthorInput" type="LineEdit" parent="NewVolumePanel/FormVBox/AuthorRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Comma-separated"
+
+[node name="TextLbl" type="Label" parent="NewVolumePanel/FormVBox"]
+layout_mode = 2
+text = "Paste source text:"
+
+[node name="TextInput" type="TextEdit" parent="NewVolumePanel/FormVBox"]
+layout_mode = 2
+size_flags_vertical = 3
+placeholder_text = "Paste the full source text here..."
+
+[node name="FormButtons" type="HBoxContainer" parent="NewVolumePanel/FormVBox"]
+layout_mode = 2
+
+[node name="CancelButton" type="Button" parent="NewVolumePanel/FormVBox/FormButtons"]
+layout_mode = 2
+custom_minimum_size = Vector2(80, 44)
+text = "Cancel"
+
+[node name="Spacer" type="Control" parent="NewVolumePanel/FormVBox/FormButtons"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="StatusLabel" type="Label" parent="NewVolumePanel/FormVBox/FormButtons"]
+layout_mode = 2
+text = ""
+vertical_alignment = 1
+
+[node name="SubmitButton" type="Button" parent="NewVolumePanel/FormVBox/FormButtons"]
+layout_mode = 2
+custom_minimum_size = Vector2(80, 44)
+text = "Create"
+
 [connection signal="item_selected" from="VBox/Body/Left/VolumeList" to="." method="_on_volume_selected"]
 [connection signal="pressed" from="VBox/Body/Right/NewVolume" to="." method="_on_new_volume_pressed"]
-[connection signal="pressed" from="VBox/Body/Right/LoadSource" to="." method="_on_load_source_pressed"]
-[connection signal="pressed" from="VBox/Body/Right/SetType" to="." method="_on_set_type_pressed"]
-[connection signal="pressed" from="VBox/Body/Right/Parse" to="." method="_on_parse_pressed"]
 [connection signal="pressed" from="VBox/Body/Right/Curate" to="." method="_on_curate_pressed"]
+[connection signal="pressed" from="NewVolumePanel/FormVBox/FormButtons/CancelButton" to="." method="_on_cancel_form"]
+[connection signal="pressed" from="NewVolumePanel/FormVBox/FormButtons/SubmitButton" to="." method="_on_submit_volume"]

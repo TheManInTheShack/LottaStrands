@@ -1,5 +1,5 @@
 ## Main.gd
-## Curation view. Scene list on the left, detail panel and command strip on the right.
+## Curation view. Header bar with navigation + full-screen scrollable paragraph list.
 
 extends Control
 
@@ -7,13 +7,14 @@ extends Control
 
 
 func _ready() -> void:
-	AppState.scenes_loaded.connect(_on_scenes_loaded)
+	AppState.paragraphs_loaded.connect(_on_paragraphs_loaded)
 	AppState.error_occurred.connect(_on_error)
 	status_label.text = "Loading..."
+	AppState.load_paragraphs()
 
 
-func _on_scenes_loaded(scenes: Array) -> void:
-	status_label.text = "%d scenes" % scenes.size()
+func _on_paragraphs_loaded(paragraphs: Array) -> void:
+	status_label.text = "%d paragraphs" % paragraphs.size()
 
 
 func _on_error(message: String) -> void:
@@ -26,24 +27,9 @@ func _on_back_pressed() -> void:
 
 func _on_reload_pressed() -> void:
 	status_label.text = "Reloading..."
-	AppState.load_scenes()
+	AppState.load_paragraphs()
 
 
 func _on_save_pressed() -> void:
 	AppState.save()
 	status_label.text = "Saved."
-
-
-# Command strip — placeholder handlers for now
-func _on_merge_pressed() -> void:
-	pass
-
-func _on_split_pressed() -> void:
-	pass
-
-func _on_rename_pressed() -> void:
-	pass
-
-func _on_save_curation_pressed() -> void:
-	AppState.save()
-	status_label.text = "Curation saved."

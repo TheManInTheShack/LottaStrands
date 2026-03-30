@@ -20,3 +20,19 @@ class RenameRequest(BaseModel):
     level: str
     index: int
     heading: str
+
+
+class VolumeCreate(BaseModel):
+    title: str
+    type: str = "unknown"
+    year: Optional[int] = None
+    authors: List[str] = []
+    format: str = "plain text"
+    url: str = ""
+    text: str
+
+
+class InsertMarkerRequest(BaseModel):
+    before_paragraph_id: str
+    level: str = "scene"
+    heading: Optional[str] = None

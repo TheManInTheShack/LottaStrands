@@ -1,8 +1,7 @@
-[gd_scene load_steps=4 format=3]
+[gd_scene load_steps=3 format=3]
 
 [ext_resource type="Script" path="res://scenes/Main.gd" id="1"]
-[ext_resource type="PackedScene" path="res://scenes/SceneList.tscn" id="2"]
-[ext_resource type="PackedScene" path="res://scenes/SceneDetail.tscn" id="3"]
+[ext_resource type="PackedScene" path="res://scenes/CurationView.tscn" id="2"]
 
 [node name="Main" type="Control"]
 layout_mode = 3
@@ -19,85 +18,41 @@ anchor_bottom = 1.0
 
 [node name="Header" type="HBoxContainer" parent="VBox"]
 layout_mode = 2
-custom_minimum_size = Vector2(0, 40)
+custom_minimum_size = Vector2(0, 44)
 
 [node name="BackButton" type="Button" parent="VBox/Header"]
 layout_mode = 2
+custom_minimum_size = Vector2(80, 44)
 text = "< Menu"
 
 [node name="TitleLabel" type="Label" parent="VBox/Header"]
 layout_mode = 2
 text = "Curation"
 theme_override_font_sizes/font_size = 18
+vertical_alignment = 1
 
 [node name="StatusLabel" type="Label" parent="VBox/Header"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = ""
 horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="ReloadButton" type="Button" parent="VBox/Header"]
 layout_mode = 2
+custom_minimum_size = Vector2(80, 44)
 text = "Reload"
 
 [node name="SaveButton" type="Button" parent="VBox/Header"]
 layout_mode = 2
+custom_minimum_size = Vector2(80, 44)
 text = "Save"
 
-[node name="Body" type="HSplitContainer" parent="VBox"]
-layout_mode = 2
-size_flags_vertical = 3
-split_offset = 320
-
-[node name="SceneListPanel" type="PanelContainer" parent="VBox/Body"]
-layout_mode = 2
-
-[node name="SceneList" parent="VBox/Body/SceneListPanel" instance=ExtResource("2")]
+[node name="CurationView" parent="VBox" instance=ExtResource("2")]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-
-[node name="RightPanel" type="VBoxContainer" parent="VBox/Body"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="SceneDetail" parent="VBox/Body/RightPanel" instance=ExtResource("3")]
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="CommandStrip" type="PanelContainer" parent="VBox/Body/RightPanel"]
-layout_mode = 2
-custom_minimum_size = Vector2(0, 48)
-
-[node name="Commands" type="HBoxContainer" parent="VBox/Body/RightPanel/CommandStrip"]
-layout_mode = 2
-anchor_right = 1.0
-anchor_bottom = 1.0
-
-[node name="MergeButton" type="Button" parent="VBox/Body/RightPanel/CommandStrip/Commands"]
-layout_mode = 2
-text = "Merge"
-
-[node name="SplitButton" type="Button" parent="VBox/Body/RightPanel/CommandStrip/Commands"]
-layout_mode = 2
-text = "Split"
-
-[node name="RenameButton" type="Button" parent="VBox/Body/RightPanel/CommandStrip/Commands"]
-layout_mode = 2
-text = "Rename"
-
-[node name="Spacer" type="Control" parent="VBox/Body/RightPanel/CommandStrip/Commands"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="SaveCurationButton" type="Button" parent="VBox/Body/RightPanel/CommandStrip/Commands"]
-layout_mode = 2
-text = "Save Curation"
 
 [connection signal="pressed" from="VBox/Header/BackButton" to="." method="_on_back_pressed"]
 [connection signal="pressed" from="VBox/Header/ReloadButton" to="." method="_on_reload_pressed"]
 [connection signal="pressed" from="VBox/Header/SaveButton" to="." method="_on_save_pressed"]
-[connection signal="pressed" from="VBox/Body/RightPanel/CommandStrip/Commands/MergeButton" to="." method="_on_merge_pressed"]
-[connection signal="pressed" from="VBox/Body/RightPanel/CommandStrip/Commands/SplitButton" to="." method="_on_split_pressed"]
-[connection signal="pressed" from="VBox/Body/RightPanel/CommandStrip/Commands/RenameButton" to="." method="_on_rename_pressed"]
-[connection signal="pressed" from="VBox/Body/RightPanel/CommandStrip/Commands/SaveCurationButton" to="." method="_on_save_curation_pressed"]
