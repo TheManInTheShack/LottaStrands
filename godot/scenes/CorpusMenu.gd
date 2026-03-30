@@ -1,26 +1,31 @@
 ## CorpusMenu.gd
-## Entry point screen. Volumes list on the left, actions on the right.
-## Includes inline New Volume form and test data for scrolling demonstration.
+## Entry point screen. Shows volumes, action buttons, and inline New Volume form.
+## Delete button on each volume row triggers a confirmation dialog.
 
 extends Control
 
 const VolumeListItemScene = preload("res://scenes/VolumeListItem.tscn")
 
-@onready var empty_hint: Label         = $HBox/Content/EmptyHint
-@onready var volumes_panel: PanelContainer = $HBox/Content/VolumesPanel
-@onready var volumes_list: VBoxContainer   = $HBox/Content/VolumesPanel/VolumesScroll/VolumesList
-@onready var curate_button: Button     = $HBox/Content/Curate
+@onready var empty_hint: Label              = $HBox/Content/EmptyHint
+@onready var volumes_panel: PanelContainer  = $HBox/Content/VolumesPanel
+@onready var volumes_list: VBoxContainer    = $HBox/Content/VolumesPanel/VolumesScroll/VolumesList
+@onready var curate_button: Button          = $HBox/Content/Curate
 
-@onready var form_panel: PanelContainer = $NewVolumePanel
-@onready var title_input: LineEdit     = $NewVolumePanel/FormVBox/TitleRow/TitleInput
-@onready var type_option: OptionButton = $NewVolumePanel/FormVBox/TypeRow/TypeOption
-@onready var year_input: LineEdit      = $NewVolumePanel/FormVBox/YearRow/YearInput
-@onready var author_input: LineEdit    = $NewVolumePanel/FormVBox/AuthorRow/AuthorInput
-@onready var text_input: TextEdit      = $NewVolumePanel/FormVBox/TextInput
-@onready var form_status: Label        = $NewVolumePanel/FormVBox/FormButtons/StatusLabel
+@onready var form_panel: PanelContainer     = $NewVolumePanel
+@onready var title_input: LineEdit          = $NewVolumePanel/FormVBox/TitleRow/TitleInput
+@onready var type_option: OptionButton      = $NewVolumePanel/FormVBox/TypeRow/TypeOption
+@onready var year_input: LineEdit           = $NewVolumePanel/FormVBox/YearRow/YearInput
+@onready var author_input: LineEdit         = $NewVolumePanel/FormVBox/AuthorRow/AuthorInput
+@onready var text_input: TextEdit           = $NewVolumePanel/FormVBox/TextInput
+@onready var form_status: Label             = $NewVolumePanel/FormVBox/FormButtons/StatusLabel
+
+@onready var delete_confirm: ConfirmationDialog = $DeleteConfirm
 
 var _volume_items: Array = []
 var _selected_idx: int = -1
+var _pending_delete_id: String = ""
+# Parallel array to _volume_items; holds raw volume dicts from the API
+var _volumes_data: Array = []
 
 
 func _ready() -> void:
@@ -48,6 +53,7 @@ func _populate_volumes(vols: Array) -> void:
 	for child in volumes_list.get_children():
 		child.queue_free()
 	_volume_items.clear()
+	_volumes_data.clear()
 	_selected_idx = -1
 
 	if vols.size() == 0:
@@ -68,12 +74,14 @@ func _populate_volumes(vols: Array) -> void:
 		]
 		var item = VolumeListItemScene.instantiate()
 		volumes_list.add_child(item)
-		item.setup(i, lbl)
+		item.setup(i, lbl, vol.get("id", ""), vol.get("title", ""))
 		item.selected.connect(_on_volume_item_selected)
+		item.delete_requested.connect(_on_delete_requested)
 		_volume_items.append(item)
+		_volumes_data.append(vol)
 
 	_select_item(0)
-	AppState.selected_volume = vols[0] if vols.size() > 0 else {}
+	AppState.selected_volume = vols[0]
 	curate_button.disabled = false
 
 
@@ -85,14 +93,29 @@ func _select_item(idx: int) -> void:
 
 func _on_volume_item_selected(idx: int) -> void:
 	_select_item(idx)
-	var vols: Array = AppState.corpus.get("volumes", [])
-	if idx < vols.size():
-		AppState.selected_volume = vols[idx]
+	if idx < _volumes_data.size():
+		AppState.selected_volume = _volumes_data[idx]
 	curate_button.disabled = false
 
 
 func _on_curate_pressed() -> void:
 	get_tree().change_scene_to_file("res://scenes/Main.tscn")
+
+
+# --- Delete ---
+
+func _on_delete_requested(volume_id: String, volume_title: String) -> void:
+	_pending_delete_id = volume_id
+	delete_confirm.dialog_text = (
+		"Delete \"%s\"?\n\nThis will remove the entire volume subgraph and cannot be undone." % volume_title
+	)
+	delete_confirm.popup_centered()
+
+
+func _on_delete_confirmed() -> void:
+	if _pending_delete_id:
+		AppState.delete_volume(_pending_delete_id)
+	_pending_delete_id = ""
 
 
 # --- New Volume form ---

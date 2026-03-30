@@ -32,6 +32,10 @@ class VolumeCreate(BaseModel):
     text: str
 
 
+class VolumeDelete(BaseModel):
+    volume_id: str
+
+
 class InsertMarkerRequest(BaseModel):
     before_paragraph_id: str
     level: str = "scene"

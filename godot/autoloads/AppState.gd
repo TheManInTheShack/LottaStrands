@@ -58,6 +58,9 @@ func create_volume(meta: Dictionary, text: String) -> void:
 	API.create_volume(meta, text)
 
 
+func delete_volume(volume_id: String) -> void:
+	API.delete_volume(volume_id)
+
 func insert_marker(before_paragraph_id: String, level: String, heading: String = "") -> void:
 	API.insert_marker(before_paragraph_id, level, heading)
 
@@ -96,8 +99,7 @@ func _on_api_response(endpoint: String, data: Variant) -> void:
 	elif endpoint.begins_with("/scenes/"):
 		scene_detail = data
 		scene_detail_loaded.emit(data)
-	elif endpoint == "/volumes":
-		# Volume created — reload corpus and paragraphs
+	elif endpoint in ["/volumes", "/volumes/delete"]:
 		load_corpus()
 		load_paragraphs()
 		graph_changed.emit()

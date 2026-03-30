@@ -14,22 +14,35 @@ anchor_bottom = 1.0
 color = Color(0, 0, 0, 0)
 mouse_filter = 2
 
-[node name="ClipBox" type="Control" parent="."]
+[node name="HBox" type="HBoxContainer" parent="."]
 layout_mode = 1
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 10
-offset_right = -10
+mouse_filter = 2
+
+[node name="ClipBox" type="Control" parent="HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 clip_children = 1
 mouse_filter = 2
 
-[node name="Label" type="Label" parent="ClipBox"]
+[node name="Label" type="Label" parent="HBox/ClipBox"]
 layout_mode = 0
+offset_left = 10
 offset_right = 4000
 offset_bottom = 40
 text = ""
 vertical_alignment = 1
 mouse_filter = 2
 
+[node name="DeleteButton" type="Button" parent="HBox"]
+layout_mode = 2
+custom_minimum_size = Vector2(36, 40)
+text = "×"
+flat = true
+mouse_filter = 0
+
+[connection signal="pressed" from="HBox/DeleteButton" to="." method="_on_delete_button_pressed"]
 [connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]

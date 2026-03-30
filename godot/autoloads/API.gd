@@ -35,6 +35,9 @@ func create_volume(meta: Dictionary, text: String) -> void:
 	body["text"] = text
 	_http_post("/volumes", body)
 
+func delete_volume(volume_id: String) -> void:
+	_http_post("/volumes/delete", {"volume_id": volume_id})
+
 func insert_marker(before_paragraph_id: String, level: String, heading: String = "") -> void:
 	_http_post("/curate/insert_marker", {
 		"before_paragraph_id": before_paragraph_id,
