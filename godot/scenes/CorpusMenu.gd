@@ -6,7 +6,6 @@ extends Control
 
 const VolumeListItemScene = preload("res://scenes/VolumeListItem.tscn")
 
-@onready var corpus_name: Label        = $HBox/Content/CorpusName
 @onready var empty_hint: Label         = $HBox/Content/EmptyHint
 @onready var volumes_panel: PanelContainer = $HBox/Content/VolumesPanel
 @onready var volumes_list: VBoxContainer   = $HBox/Content/VolumesPanel/VolumesScroll/VolumesList
@@ -23,18 +22,6 @@ const VolumeListItemScene = preload("res://scenes/VolumeListItem.tscn")
 var _volume_items: Array = []
 var _selected_idx: int = -1
 
-# Temporary test volumes — replace with real data once volumes are created via API
-const TEST_VOLUMES := [
-	{"title": "The Big Lebowski (A Very Long Title That Tests the Marquee Scroll Functionality on Hover)", "type": "screenplay", "year": 1998},
-	{"title": "The Big Lebowski", "type": "screenplay", "year": 1998},
-	{"title": "No Country for Old Men", "type": "screenplay", "year": 2007},
-	{"title": "Blood Meridian", "type": "novel", "year": 1985},
-	{"title": "The Road", "type": "novel", "year": 2006},
-	{"title": "Fargo", "type": "screenplay", "year": 1996},
-	{"title": "Barton Fink", "type": "screenplay", "year": 1991},
-	{"title": "True Grit", "type": "screenplay", "year": 2010},
-]
-
 
 func _ready() -> void:
 	AppState.corpus_loaded.connect(_on_corpus_loaded)
@@ -47,18 +34,10 @@ func _ready() -> void:
 
 	if AppState.corpus.size() > 0:
 		_on_corpus_loaded(AppState.corpus)
-	else:
-		# Show test volumes while no real data exists
-		_populate_volumes(TEST_VOLUMES)
 
 
 func _on_corpus_loaded(corpus: Dictionary) -> void:
-	corpus_name.text = corpus.get("title", corpus.get("name", ""))
-	var vols: Array = corpus.get("volumes", [])
-	if vols.size() > 0:
-		_populate_volumes(vols)
-	else:
-		_populate_volumes(TEST_VOLUMES)
+	_populate_volumes(corpus.get("volumes", []))
 
 
 func _on_graph_changed() -> void:
