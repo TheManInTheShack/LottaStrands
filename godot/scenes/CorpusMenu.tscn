@@ -1,6 +1,17 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene load_steps=3 format=3]
 
 [ext_resource type="Script" path="res://scenes/CorpusMenu.gd" id="1"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_volumes"]
+bg_color = Color(0.075, 0.075, 0.075, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+content_margin_left = 0
+content_margin_right = 0
+content_margin_top = 4
+content_margin_bottom = 4
 
 [node name="CorpusMenu" type="Control"]
 layout_mode = 3
@@ -9,105 +20,135 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 script = ExtResource("1")
 
-[node name="VBox" type="VBoxContainer" parent="."]
+[node name="HBox" type="HBoxContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 
-[node name="TitleLabel" type="Label" parent="VBox"]
+[node name="LeftSpacer" type="Control" parent="HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 1.0
+
+[node name="Content" type="VBoxContainer" parent="HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 3.0
+theme_override_constants/separation = 10
+
+[node name="TopPad" type="Control" parent="HBox/Content"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 20)
+
+[node name="TitleLabel" type="Label" parent="HBox/Content"]
 layout_mode = 2
 text = "LottaStrands"
-theme_override_font_sizes/font_size = 24
+theme_override_font_sizes/font_size = 28
 horizontal_alignment = 1
 
-[node name="Body" type="HSplitContainer" parent="VBox"]
-layout_mode = 2
-size_flags_vertical = 3
-split_offset = 400
-
-[node name="Left" type="VBoxContainer" parent="VBox/Body"]
+[node name="Sep0" type="HSeparator" parent="HBox/Content"]
 layout_mode = 2
 
-[node name="CorpusHeader" type="Label" parent="VBox/Body/Left"]
+[node name="CorpusHeader" type="Label" parent="HBox/Content"]
 layout_mode = 2
 text = "CORPUS"
-theme_override_font_sizes/font_size = 13
+theme_override_font_sizes/font_size = 11
 
-[node name="CorpusName" type="Label" parent="VBox/Body/Left"]
+[node name="CorpusName" type="Label" parent="HBox/Content"]
 layout_mode = 2
 text = ""
 theme_override_font_sizes/font_size = 16
 
-[node name="Sep1" type="HSeparator" parent="VBox/Body/Left"]
+[node name="Sep1" type="HSeparator" parent="HBox/Content"]
 layout_mode = 2
 
-[node name="VolumesHeader" type="Label" parent="VBox/Body/Left"]
+[node name="VolumesHeader" type="Label" parent="HBox/Content"]
 layout_mode = 2
 text = "VOLUMES"
-theme_override_font_sizes/font_size = 13
+theme_override_font_sizes/font_size = 11
 
-[node name="EmptyHint" type="Label" parent="VBox/Body/Left"]
+[node name="EmptyHint" type="Label" parent="HBox/Content"]
 layout_mode = 2
 text = "No volumes yet. Use \"New Volume\" to add one."
 autowrap_mode = 3
 visible = true
 
-[node name="VolumeList" type="ItemList" parent="VBox/Body/Left"]
+[node name="VolumesPanel" type="PanelContainer" parent="HBox/Content"]
 layout_mode = 2
-size_flags_vertical = 3
+custom_minimum_size = Vector2(0, 280)
+theme_override_styles/panel = SubResource("StyleBoxFlat_volumes")
 visible = false
 
-[node name="Right" type="VBoxContainer" parent="VBox/Body"]
+[node name="VolumesScroll" type="ScrollContainer" parent="HBox/Content/VolumesPanel"]
+layout_mode = 2
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="VolumesList" type="VBoxContainer" parent="HBox/Content/VolumesPanel/VolumesScroll"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="ActionsHeader" type="Label" parent="VBox/Body/Right"]
+[node name="Sep2" type="HSeparator" parent="HBox/Content"]
+layout_mode = 2
+
+[node name="ActionsHeader" type="Label" parent="HBox/Content"]
 layout_mode = 2
 text = "ACTIONS"
-theme_override_font_sizes/font_size = 13
+theme_override_font_sizes/font_size = 11
 
-[node name="NewVolume" type="Button" parent="VBox/Body/Right"]
+[node name="NewVolume" type="Button" parent="HBox/Content"]
 layout_mode = 2
 custom_minimum_size = Vector2(0, 44)
 text = "New Volume"
 
-[node name="Sep2" type="HSeparator" parent="VBox/Body/Right"]
-layout_mode = 2
-
-[node name="Curate" type="Button" parent="VBox/Body/Right"]
+[node name="Curate" type="Button" parent="HBox/Content"]
 layout_mode = 2
 custom_minimum_size = Vector2(0, 44)
 text = "Curate"
 disabled = true
 
-[node name="Sep3" type="HSeparator" parent="VBox/Body/Right"]
+[node name="Sep3" type="HSeparator" parent="HBox/Content"]
 layout_mode = 2
 
-[node name="Lexicon" type="Button" parent="VBox/Body/Right"]
+[node name="SecondaryButtons" type="HFlowContainer" parent="HBox/Content"]
+layout_mode = 2
+theme_override_constants/h_separation = 6
+
+[node name="Lexicon" type="Button" parent="HBox/Content/SecondaryButtons"]
 layout_mode = 2
 text = "Lexicon"
 disabled = true
 
-[node name="Ontology" type="Button" parent="VBox/Body/Right"]
+[node name="Ontology" type="Button" parent="HBox/Content/SecondaryButtons"]
 layout_mode = 2
 text = "Ontology"
 disabled = true
 
-[node name="Taxonomy" type="Button" parent="VBox/Body/Right"]
+[node name="Taxonomy" type="Button" parent="HBox/Content/SecondaryButtons"]
 layout_mode = 2
 text = "Taxonomy"
 disabled = true
 
-[node name="Analysis" type="Button" parent="VBox/Body/Right"]
+[node name="Analysis" type="Button" parent="HBox/Content/SecondaryButtons"]
 layout_mode = 2
 text = "Analysis"
 disabled = true
 
-[node name="Visualization" type="Button" parent="VBox/Body/Right"]
+[node name="Visualization" type="Button" parent="HBox/Content/SecondaryButtons"]
 layout_mode = 2
 text = "Visualization"
 disabled = true
+
+[node name="BottomPad" type="Control" parent="HBox/Content"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 20)
+
+[node name="RightSpacer" type="Control" parent="HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 1.0
 
 [node name="NewVolumePanel" type="PanelContainer" parent="."]
 layout_mode = 1
@@ -132,7 +173,7 @@ layout_mode = 2
 
 [node name="TitleLbl" type="Label" parent="NewVolumePanel/FormVBox/TitleRow"]
 layout_mode = 2
-custom_minimum_size = Vector2(80, 0)
+custom_minimum_size = Vector2(90, 0)
 text = "Title"
 vertical_alignment = 1
 
@@ -146,7 +187,7 @@ layout_mode = 2
 
 [node name="TypeLbl" type="Label" parent="NewVolumePanel/FormVBox/TypeRow"]
 layout_mode = 2
-custom_minimum_size = Vector2(80, 0)
+custom_minimum_size = Vector2(90, 0)
 text = "Type"
 vertical_alignment = 1
 
@@ -159,7 +200,7 @@ layout_mode = 2
 
 [node name="YearLbl" type="Label" parent="NewVolumePanel/FormVBox/YearRow"]
 layout_mode = 2
-custom_minimum_size = Vector2(80, 0)
+custom_minimum_size = Vector2(90, 0)
 text = "Year"
 vertical_alignment = 1
 
@@ -173,7 +214,7 @@ layout_mode = 2
 
 [node name="AuthorLbl" type="Label" parent="NewVolumePanel/FormVBox/AuthorRow"]
 layout_mode = 2
-custom_minimum_size = Vector2(80, 0)
+custom_minimum_size = Vector2(90, 0)
 text = "Author(s)"
 vertical_alignment = 1
 
@@ -199,7 +240,7 @@ layout_mode = 2
 custom_minimum_size = Vector2(80, 44)
 text = "Cancel"
 
-[node name="Spacer" type="Control" parent="NewVolumePanel/FormVBox/FormButtons"]
+[node name="FormSpacer" type="Control" parent="NewVolumePanel/FormVBox/FormButtons"]
 layout_mode = 2
 size_flags_horizontal = 3
 
@@ -213,8 +254,7 @@ layout_mode = 2
 custom_minimum_size = Vector2(80, 44)
 text = "Create"
 
-[connection signal="item_selected" from="VBox/Body/Left/VolumeList" to="." method="_on_volume_selected"]
-[connection signal="pressed" from="VBox/Body/Right/NewVolume" to="." method="_on_new_volume_pressed"]
-[connection signal="pressed" from="VBox/Body/Right/Curate" to="." method="_on_curate_pressed"]
+[connection signal="pressed" from="HBox/Content/NewVolume" to="." method="_on_new_volume_pressed"]
+[connection signal="pressed" from="HBox/Content/Curate" to="." method="_on_curate_pressed"]
 [connection signal="pressed" from="NewVolumePanel/FormVBox/FormButtons/CancelButton" to="." method="_on_cancel_form"]
 [connection signal="pressed" from="NewVolumePanel/FormVBox/FormButtons/SubmitButton" to="." method="_on_submit_volume"]
