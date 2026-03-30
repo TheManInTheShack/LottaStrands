@@ -242,6 +242,7 @@ dialog_text = ""
 ok_button_text = "Delete"
 
 [connection signal="confirmed" from="DeleteConfirm" to="." method="_on_delete_confirmed"]
+[connection signal="canceled" from="DeleteConfirm" to="." method="_on_delete_cancelled"]
 [connection signal="pressed" from="HBox/Content/NewVolume" to="." method="_on_new_volume_pressed"]
 [connection signal="pressed" from="HBox/Content/Curate" to="." method="_on_curate_pressed"]
 [connection signal="pressed" from="NewVolumePanel/FormVBox/FormButtons/CancelButton" to="." method="_on_cancel_form"]

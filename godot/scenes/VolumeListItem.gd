@@ -38,6 +38,16 @@ func set_selected(on: bool) -> void:
 	bg.color = COLOR_SELECTED if on else COLOR_NORMAL
 
 
+func reset_hover() -> void:
+	if _tween:
+		_tween.kill()
+		_tween = null
+	label.position.x = 0
+	if not _is_selected:
+		bg.color = COLOR_NORMAL
+	delete_btn.release_focus()
+
+
 func _compute_scroll() -> void:
 	_scroll_dist = maxf(0.0, label.get_minimum_size().x - clip_box.size.x)
 

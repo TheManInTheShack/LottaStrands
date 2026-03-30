@@ -29,10 +29,11 @@ def create_volume(body: VolumeCreate):
     GRAPH_PATH.parent.mkdir(parents=True, exist_ok=True)
     g.save(str(GRAPH_PATH))
 
-    # Initialise curation log only if it doesn't exist yet
-    if not CURATION_PATH.exists():
-        CURATION_PATH.parent.mkdir(parents=True, exist_ok=True)
-        CURATION_PATH.write_text("[]")
+    # The graph we saved already has all previous curation applied (we used
+    # the live in-memory graph as the base). Reset the curation log so the
+    # saved graph becomes the new clean baseline; no double-replay on reload.
+    CURATION_PATH.parent.mkdir(parents=True, exist_ok=True)
+    CURATION_PATH.write_text("[]")
 
     state.load(GRAPH_PATH, CURATION_PATH)
 

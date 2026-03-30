@@ -31,6 +31,8 @@ var _volumes_data: Array = []
 func _ready() -> void:
 	AppState.corpus_loaded.connect(_on_corpus_loaded)
 	AppState.graph_changed.connect(_on_graph_changed)
+	AppState.volume_created.connect(_on_volume_created)
+	AppState.error_occurred.connect(_on_api_error)
 
 	type_option.add_item("screenplay")
 	type_option.add_item("novel")
@@ -118,15 +120,39 @@ func _on_delete_confirmed() -> void:
 	_pending_delete_id = ""
 
 
+func _on_delete_cancelled() -> void:
+	_pending_delete_id = ""
+	for item in _volume_items:
+		item.reset_hover()
+
+
 # --- New Volume form ---
 
 func _on_new_volume_pressed() -> void:
 	form_status.text = ""
+	_set_form_submitting(false)
 	form_panel.visible = true
 
 
 func _on_cancel_form() -> void:
 	form_panel.visible = false
+
+
+func _set_form_submitting(submitting: bool) -> void:
+	$NewVolumePanel/FormVBox/FormButtons/SubmitButton.disabled = submitting
+	$NewVolumePanel/FormVBox/FormButtons/CancelButton.disabled = submitting
+
+
+func _on_volume_created(_data: Dictionary) -> void:
+	form_panel.visible = false
+	_set_form_submitting(false)
+
+
+func _on_api_error(message: String) -> void:
+	# Show errors that occur while the form is open
+	if form_panel.visible:
+		form_status.text = message
+		_set_form_submitting(false)
 
 
 func _on_submit_volume() -> void:
@@ -140,6 +166,7 @@ func _on_submit_volume() -> void:
 		return
 
 	form_status.text = "Creating..."
+	_set_form_submitting(true)
 
 	var type_map := ["screenplay", "novel", "short story", "unknown"]
 	var authors: Array = []
@@ -159,5 +186,3 @@ func _on_submit_volume() -> void:
 		"year": year_val,
 		"authors": authors,
 	}, text)
-
-	form_panel.visible = false

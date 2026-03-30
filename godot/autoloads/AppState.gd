@@ -10,6 +10,7 @@ signal scenes_loaded(scenes: Array)
 signal scene_selected(scene: Dictionary)
 signal scene_detail_loaded(detail: Dictionary)
 signal paragraphs_loaded(paragraphs: Array)
+signal volume_created(data: Dictionary)
 signal graph_changed()
 signal error_occurred(message: String)
 
@@ -99,9 +100,12 @@ func _on_api_response(endpoint: String, data: Variant) -> void:
 	elif endpoint.begins_with("/scenes/"):
 		scene_detail = data
 		scene_detail_loaded.emit(data)
-	elif endpoint in ["/volumes", "/volumes/delete"]:
+	elif endpoint == "/volumes":
+		volume_created.emit(data)
 		load_corpus()
-		load_paragraphs()
+		graph_changed.emit()
+	elif endpoint == "/volumes/delete":
+		load_corpus()
 		graph_changed.emit()
 	elif endpoint == "/curate/insert_marker":
 		load_paragraphs()
