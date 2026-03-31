@@ -38,6 +38,12 @@ The end artifact is a **property graph**: nodes and edges with properties, Neo4j
 - InsertStrip pattern: tap strip between paragraph cards to insert hierarchy markers
 - `÷` symbol for insert strips; `×` for remove/delete actions
 
+## GDScript conventions
+- Always use explicit types; never rely on `:=` inference from `Dictionary.get()` or other Variant sources
+- `Dictionary.get()` always returns Variant — type the receiving variable explicitly: `var x: String = dict.get("key", "")`
+- Prefer `var x: Variant = dict.get("key")` over untyped `var x = dict.get("key")` when the value may be null
+- Warn the user if a pattern would produce Variant inference warnings in strict mode
+
 ## Engine layout
 ```
 engine/

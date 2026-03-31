@@ -109,9 +109,9 @@ func _on_volume_item_selected(idx: int) -> void:
 
 func _update_detail(vol: Dictionary) -> void:
 	var parts: Array = []
-	var t := vol.get("type", "")
-	var y = vol.get("year")
-	var added := vol.get("added_at", "")
+	var t: String = vol.get("type", "")
+	var y: Variant = vol.get("year")
+	var added: String = vol.get("added_at", "")
 	if t:
 		parts.append(t)
 	if y:
