@@ -15,6 +15,9 @@
 - [[workflow/plot-stages]] — *(to write)* the four PLOT stages
 - [[workflow/curation-flow]] — *(to write)* flat ingest → marker insertion
 
+## How-to
+- [[howto/new-model-repo]] — spin up a new corpus instance
+
 ## Decisions
 - [[decisions/001-flat-ingest]] — why flat ingest over auto-parse
 - [[decisions/002-godot-ui]] — why Godot
