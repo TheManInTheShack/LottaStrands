@@ -34,7 +34,7 @@ def get_corpus():
     g = state.get_graph()
     corpus = next(iter(g.get_nodes_by_label("Corpus")), None)
     volumes = sorted(g.get_nodes_by_label("Volume"),
-                     key=lambda n: n.properties.get("title", ""))
+                     key=lambda n: n.properties.get("added_at", ""))
     return {
         "name": corpus.properties.get("name") if corpus else "",
         "title": corpus.properties.get("title") if corpus else "",

@@ -19,7 +19,7 @@ const VolumeListItemScene = preload("res://scenes/VolumeListItem.tscn")
 @onready var text_input: TextEdit           = $NewVolumePanel/FormVBox/TextInput
 @onready var form_status: Label             = $NewVolumePanel/FormVBox/FormButtons/StatusLabel
 
-@onready var detail_panel: PanelContainer  = $HBox/Content/VolumeDetail
+@onready var detail_panel: VBoxContainer   = $HBox/Content/VolumeDetail
 @onready var detail_meta: Label            = $HBox/Content/VolumeDetail/DetailVBox/DetailMeta
 @onready var detail_counts: Label          = $HBox/Content/VolumeDetail/DetailVBox/DetailCounts
 
