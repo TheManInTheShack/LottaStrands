@@ -19,6 +19,10 @@ const VolumeListItemScene = preload("res://scenes/VolumeListItem.tscn")
 @onready var text_input: TextEdit           = $NewVolumePanel/FormVBox/TextInput
 @onready var form_status: Label             = $NewVolumePanel/FormVBox/FormButtons/StatusLabel
 
+@onready var detail_panel: PanelContainer  = $HBox/Content/VolumeDetail
+@onready var detail_meta: Label            = $HBox/Content/VolumeDetail/DetailVBox/DetailMeta
+@onready var detail_counts: Label          = $HBox/Content/VolumeDetail/DetailVBox/DetailCounts
+
 @onready var delete_confirm: ConfirmationDialog = $DeleteConfirm
 
 var _volume_items: Array = []
@@ -61,6 +65,7 @@ func _populate_volumes(vols: Array) -> void:
 	if vols.size() == 0:
 		empty_hint.visible = true
 		volumes_panel.visible = false
+		detail_panel.visible = false
 		curate_button.disabled = true
 		return
 
@@ -84,6 +89,7 @@ func _populate_volumes(vols: Array) -> void:
 
 	_select_item(0)
 	AppState.selected_volume = vols[0]
+	_update_detail(vols[0])
 	curate_button.disabled = false
 
 
@@ -97,7 +103,31 @@ func _on_volume_item_selected(idx: int) -> void:
 	_select_item(idx)
 	if idx < _volumes_data.size():
 		AppState.selected_volume = _volumes_data[idx]
+		_update_detail(_volumes_data[idx])
 	curate_button.disabled = false
+
+
+func _update_detail(vol: Dictionary) -> void:
+	var parts: Array = []
+	var t := vol.get("type", "")
+	var y = vol.get("year")
+	var added := vol.get("added_at", "")
+	if t:
+		parts.append(t)
+	if y:
+		parts.append(str(y))
+	if added:
+		parts.append("added " + added.left(10))
+	detail_meta.text = "  •  ".join(parts)
+
+	var counts: Dictionary = vol.get("counts", {})
+	var count_parts: Array = []
+	for label in ["Scene", "Paragraph", "Shot", "Sentence"]:
+		if counts.has(label):
+			count_parts.append("%s: %d" % [label, counts[label]])
+	detail_counts.text = "  •  ".join(count_parts)
+
+	detail_panel.visible = true
 
 
 func _on_curate_pressed() -> void:

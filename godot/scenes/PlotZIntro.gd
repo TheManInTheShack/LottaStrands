@@ -8,11 +8,11 @@ extends Control
 
 const WORDS: Array = ["Parse", "Lexicon", "Ontology", "Taxonomy", "Z", "PLOTZ"]
 
-const FADE_IN_TIME       := 0.4
-const WORD_HOLD_TIME     := 0.75
-const WORD_FADE_OUT_TIME := 0.25
+const FADE_IN_TIME       := 0.2
+const WORD_HOLD_TIME     := 0.38
+const WORD_FADE_OUT_TIME := 0.12
 const PLOTZ_HOLD_TIME    := 1.5
-const PLOTZ_FADE_OUT     := 0.5
+const PLOTZ_FADE_OUT     := 0.25
 
 
 func _ready() -> void:

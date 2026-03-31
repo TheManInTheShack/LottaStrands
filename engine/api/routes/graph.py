@@ -4,6 +4,26 @@ from engine.api import state
 router = APIRouter()
 
 
+def _volume_counts(g, volume_id: str) -> dict:
+    """BFS from a Volume node; count descendant nodes by label."""
+    counts = {}
+    queue = [volume_id]
+    visited = set()
+    while queue:
+        node_id = queue.pop(0)
+        if node_id in visited:
+            continue
+        visited.add(node_id)
+        node = g.nodes.get(node_id)
+        if node and node_id != volume_id:
+            for label in node.labels:
+                counts[label] = counts.get(label, 0) + 1
+        for edge in g.get_edges_from(node_id):
+            if edge.type == "CONTAINS" and edge.to_id not in visited:
+                queue.append(edge.to_id)
+    return counts
+
+
 @router.get("/graph")
 def get_graph():
     return state.get_graph().to_dict()
@@ -18,7 +38,10 @@ def get_corpus():
     return {
         "name": corpus.properties.get("name") if corpus else "",
         "title": corpus.properties.get("title") if corpus else "",
-        "volumes": [{"id": v.id, **v.properties} for v in volumes]
+        "volumes": [
+            {"id": v.id, **v.properties, "counts": _volume_counts(g, v.id)}
+            for v in volumes
+        ]
     }
 
 

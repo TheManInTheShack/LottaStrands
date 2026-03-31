@@ -11,6 +11,7 @@ signal delete_requested(volume_id: String, volume_title: String)
 const COLOR_NORMAL   := Color(0, 0, 0, 0)
 const COLOR_HOVER    := Color(1, 1, 1, 0.06)
 const COLOR_SELECTED := Color(0.25, 0.55, 1.0, 0.28)
+const LABEL_START_X  := 10.0  # must match Label offset_left in the tscn
 
 var item_index: int = 0
 var volume_id: String = ""
@@ -42,7 +43,7 @@ func reset_hover() -> void:
 	if _tween:
 		_tween.kill()
 		_tween = null
-	label.position.x = 0
+	label.position.x = LABEL_START_X
 	if not _is_selected:
 		bg.color = COLOR_NORMAL
 	delete_btn.release_focus()
@@ -61,9 +62,9 @@ func _on_mouse_entered() -> void:
 			_tween.kill()
 		_tween = create_tween().set_loops()
 		var dur := clampf(_scroll_dist / 80.0, 0.5, 3.0)
-		_tween.tween_property(label, "position:x", -_scroll_dist, dur).set_ease(Tween.EASE_IN_OUT)
+		_tween.tween_property(label, "position:x", LABEL_START_X - _scroll_dist, dur).set_ease(Tween.EASE_IN_OUT)
 		_tween.tween_interval(0.4)
-		_tween.tween_property(label, "position:x", 0.0, dur).set_ease(Tween.EASE_IN_OUT)
+		_tween.tween_property(label, "position:x", LABEL_START_X, dur).set_ease(Tween.EASE_IN_OUT)
 		_tween.tween_interval(0.4)
 
 
@@ -73,7 +74,7 @@ func _on_mouse_exited() -> void:
 	if _tween:
 		_tween.kill()
 		_tween = null
-	create_tween().tween_property(label, "position:x", 0.0, 0.15)
+	create_tween().tween_property(label, "position:x", LABEL_START_X, 0.15)
 
 
 func _gui_input(event: InputEvent) -> void:

@@ -8,6 +8,8 @@ is created with a new Corpus.
 Hierarchy added: Corpus -> Volume -> Scene ("FULL TEXT") -> Paragraphs
 """
 
+from datetime import datetime, timezone
+
 from engine.graph.model import Graph
 
 
@@ -36,6 +38,7 @@ def flat_ingest(text: str, config: dict, existing_graph: Graph = None) -> Graph:
         "authors": config.get("authors", []),
         "format": config.get("format", "plain text"),
         "url": config.get("url", ""),
+        "added_at": datetime.now(timezone.utc).isoformat(),
     })
     g.create_edge("CONTAINS", corpus.id, volume.id)
 

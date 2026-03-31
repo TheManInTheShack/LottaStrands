@@ -1,6 +1,17 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene load_steps=4 format=3]
 
 [ext_resource type="Script" path="res://scenes/CorpusMenu.gd" id="1"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_detail"]
+bg_color = Color(0.075, 0.075, 0.075, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+content_margin_left = 10
+content_margin_right = 10
+content_margin_top = 8
+content_margin_bottom = 8
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_form"]
 bg_color = Color(0.12, 0.12, 0.12, 1)
@@ -78,6 +89,28 @@ anchor_bottom = 1.0
 [node name="VolumesList" type="VBoxContainer" parent="HBox/Content/VolumesPanel/VolumesScroll"]
 layout_mode = 2
 size_flags_horizontal = 3
+
+[node name="VolumeDetail" type="PanelContainer" parent="HBox/Content"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_detail")
+visible = false
+
+[node name="DetailVBox" type="VBoxContainer" parent="HBox/Content/VolumeDetail"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="DetailMeta" type="Label" parent="HBox/Content/VolumeDetail/DetailVBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+theme_override_colors/font_color = Color(0.75, 0.75, 0.75, 1)
+text = ""
+autowrap_mode = 3
+
+[node name="DetailCounts" type="Label" parent="HBox/Content/VolumeDetail/DetailVBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+theme_override_colors/font_color = Color(0.55, 0.55, 0.55, 1)
+text = ""
 
 [node name="Sep2" type="HSeparator" parent="HBox/Content"]
 layout_mode = 2
