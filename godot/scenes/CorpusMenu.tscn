@@ -36,7 +36,7 @@ anchor_bottom = 1.0
 [node name="LeftSpacer" type="Control" parent="HBox"]
 layout_mode = 2
 size_flags_horizontal = 3
-size_flags_stretch_ratio = 3.0
+size_flags_stretch_ratio = 2.7
 
 [node name="Content" type="VBoxContainer" parent="HBox"]
 layout_mode = 2
@@ -154,7 +154,7 @@ custom_minimum_size = Vector2(0, 20)
 [node name="RightSpacer" type="Control" parent="HBox"]
 layout_mode = 2
 size_flags_horizontal = 3
-size_flags_stretch_ratio = 3.0
+size_flags_stretch_ratio = 2.7
 
 [node name="NewVolumePanel" type="PanelContainer" parent="."]
 layout_mode = 1

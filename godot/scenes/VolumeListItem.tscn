@@ -1,6 +1,22 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene load_steps=3 format=3]
 
 [ext_resource type="Script" path="res://scenes/VolumeListItem.gd" id="1"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn"]
+bg_color = Color(0, 0, 0, 0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.35, 0.35, 0.35, 0.7)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+content_margin_left = 4
+content_margin_right = 4
+content_margin_top = 4
+content_margin_bottom = 4
 
 [node name="VolumeListItem" type="Control"]
 custom_minimum_size = Vector2(0, 40)
@@ -39,6 +55,7 @@ mouse_filter = 2
 [node name="UpButton" type="Button" parent="HBox"]
 layout_mode = 2
 custom_minimum_size = Vector2(36, 40)
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn")
 text = "↑"
 flat = true
 mouse_filter = 0
@@ -46,6 +63,7 @@ mouse_filter = 0
 [node name="DownButton" type="Button" parent="HBox"]
 layout_mode = 2
 custom_minimum_size = Vector2(36, 40)
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn")
 text = "↓"
 flat = true
 mouse_filter = 0
@@ -53,6 +71,7 @@ mouse_filter = 0
 [node name="DeleteButton" type="Button" parent="HBox"]
 layout_mode = 2
 custom_minimum_size = Vector2(36, 40)
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn")
 text = "×"
 flat = true
 mouse_filter = 0
