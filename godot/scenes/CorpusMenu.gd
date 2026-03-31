@@ -84,8 +84,14 @@ func _populate_volumes(vols: Array) -> void:
 		item.setup(i, lbl, vol.get("id", ""), vol.get("title", ""))
 		item.selected.connect(_on_volume_item_selected)
 		item.delete_requested.connect(_on_delete_requested)
+		item.move_up_requested.connect(_on_move_up)
+		item.move_down_requested.connect(_on_move_down)
 		_volume_items.append(item)
 		_volumes_data.append(vol)
+
+	# Disable boundary move buttons
+	for i in _volume_items.size():
+		_volume_items[i].set_move_buttons(i > 0, i < _volume_items.size() - 1)
 
 	_select_item(0)
 	AppState.selected_volume = vols[0]
@@ -132,6 +138,37 @@ func _update_detail(vol: Dictionary) -> void:
 
 func _on_curate_pressed() -> void:
 	get_tree().change_scene_to_file("res://scenes/CurationScreen.tscn")
+
+
+# --- Reorder ---
+
+func _on_move_up(idx: int) -> void:
+	if idx < 1:
+		return
+	var tmp: Dictionary = _volumes_data[idx - 1]
+	_volumes_data[idx - 1] = _volumes_data[idx]
+	_volumes_data[idx] = tmp
+	_populate_volumes(_volumes_data.duplicate())
+	_select_item(idx - 1)
+	AppState.reorder_volumes(_volume_ids())
+
+
+func _on_move_down(idx: int) -> void:
+	if idx >= _volumes_data.size() - 1:
+		return
+	var tmp: Dictionary = _volumes_data[idx + 1]
+	_volumes_data[idx + 1] = _volumes_data[idx]
+	_volumes_data[idx] = tmp
+	_populate_volumes(_volumes_data.duplicate())
+	_select_item(idx + 1)
+	AppState.reorder_volumes(_volume_ids())
+
+
+func _volume_ids() -> Array:
+	var ids: Array = []
+	for vol in _volumes_data:
+		ids.append(vol.get("id", ""))
+	return ids
 
 
 # --- Delete ---

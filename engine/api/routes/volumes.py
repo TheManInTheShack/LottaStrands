@@ -1,14 +1,16 @@
+import json
 from fastapi import APIRouter, HTTPException
 from pathlib import Path
 
 from engine.api import state
-from engine.api.models import VolumeCreate, VolumeDelete
+from engine.api.models import VolumeCreate, VolumeDelete, VolumeReorder
 from engine.ingest.flat_ingest import flat_ingest
 
 router = APIRouter()
 
 GRAPH_PATH = Path("model/data/graph.json")
 CURATION_PATH = Path("model/config/curation.json")
+HIERARCHY_PATH = Path("model/config/hierarchy.json")
 
 
 @router.post("/volumes")
@@ -74,4 +76,29 @@ def delete_volume(body: VolumeDelete):
     g.save(str(GRAPH_PATH))
     state.reload()
 
+    # Remove deleted volume from saved order if present
+    if HIERARCHY_PATH.exists():
+        hierarchy = json.loads(HIERARCHY_PATH.read_text())
+        order = hierarchy.get("volume_order", [])
+        if body.volume_id in order:
+            order.remove(body.volume_id)
+            hierarchy["volume_order"] = order
+            HIERARCHY_PATH.write_text(json.dumps(hierarchy, indent=2))
+
     return {"status": "ok", "deleted_node_count": len(to_delete)}
+
+
+@router.post("/volumes/reorder")
+def reorder_volumes(body: VolumeReorder):
+    g = state.get_graph()
+    for vid in body.order:
+        if vid not in g.nodes or "Volume" not in g.nodes[vid].labels:
+            raise HTTPException(status_code=404, detail=f"Volume {vid} not found")
+
+    if not HIERARCHY_PATH.exists():
+        raise HTTPException(status_code=500, detail="hierarchy.json not found")
+
+    hierarchy = json.loads(HIERARCHY_PATH.read_text())
+    hierarchy["volume_order"] = body.order
+    HIERARCHY_PATH.write_text(json.dumps(hierarchy, indent=2))
+    return {"status": "ok"}

@@ -40,3 +40,7 @@ class InsertMarkerRequest(BaseModel):
     before_paragraph_id: str
     level: str = "scene"
     heading: Optional[str] = None
+
+
+class VolumeReorder(BaseModel):
+    order: List[str]  # volume IDs in desired display order

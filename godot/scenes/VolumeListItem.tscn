@@ -36,6 +36,20 @@ text = ""
 vertical_alignment = 1
 mouse_filter = 2
 
+[node name="UpButton" type="Button" parent="HBox"]
+layout_mode = 2
+custom_minimum_size = Vector2(36, 40)
+text = "↑"
+flat = true
+mouse_filter = 0
+
+[node name="DownButton" type="Button" parent="HBox"]
+layout_mode = 2
+custom_minimum_size = Vector2(36, 40)
+text = "↓"
+flat = true
+mouse_filter = 0
+
 [node name="DeleteButton" type="Button" parent="HBox"]
 layout_mode = 2
 custom_minimum_size = Vector2(36, 40)
@@ -43,6 +57,8 @@ text = "×"
 flat = true
 mouse_filter = 0
 
+[connection signal="pressed" from="HBox/UpButton" to="." method="_on_up_pressed"]
+[connection signal="pressed" from="HBox/DownButton" to="." method="_on_down_pressed"]
 [connection signal="pressed" from="HBox/DeleteButton" to="." method="_on_delete_button_pressed"]
 [connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]

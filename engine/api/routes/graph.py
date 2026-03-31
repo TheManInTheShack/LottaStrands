@@ -1,5 +1,9 @@
+import json
+from pathlib import Path
 from fastapi import APIRouter, HTTPException
 from engine.api import state
+
+HIERARCHY_PATH = Path("model/config/hierarchy.json")
 
 router = APIRouter()
 
@@ -33,8 +37,27 @@ def get_graph():
 def get_corpus():
     g = state.get_graph()
     corpus = next(iter(g.get_nodes_by_label("Corpus")), None)
-    volumes = sorted(g.get_nodes_by_label("Volume"),
-                     key=lambda n: n.properties.get("added_at", ""))
+    all_volumes = g.get_nodes_by_label("Volume")
+
+    # Use saved display order if present; fall back to added_at
+    saved_order: list = []
+    if HIERARCHY_PATH.exists():
+        try:
+            saved_order = json.loads(HIERARCHY_PATH.read_text()).get("volume_order", [])
+        except Exception:
+            saved_order = []
+
+    if saved_order:
+        vol_map = {v.id: v for v in all_volumes}
+        volumes = [vol_map[vid] for vid in saved_order if vid in vol_map]
+        ordered_ids = set(saved_order)
+        volumes += sorted(
+            [v for v in all_volumes if v.id not in ordered_ids],
+            key=lambda n: n.properties.get("added_at", "")
+        )
+    else:
+        volumes = sorted(all_volumes, key=lambda n: n.properties.get("added_at", ""))
+
     return {
         "name": corpus.properties.get("name") if corpus else "",
         "title": corpus.properties.get("title") if corpus else "",

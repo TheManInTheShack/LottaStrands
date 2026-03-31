@@ -7,6 +7,8 @@ extends Control
 
 signal selected(index: int)
 signal delete_requested(volume_id: String, volume_title: String)
+signal move_up_requested(index: int)
+signal move_down_requested(index: int)
 
 const COLOR_NORMAL   := Color(0, 0, 0, 0)
 const COLOR_HOVER    := Color(1, 1, 1, 0.06)
@@ -20,9 +22,11 @@ var _is_selected: bool = false
 var _scroll_dist: float = 0.0
 var _tween: Tween = null
 
-@onready var bg: ColorRect     = $BG
-@onready var clip_box: Control = $HBox/ClipBox
-@onready var label: Label      = $HBox/ClipBox/Label
+@onready var bg: ColorRect      = $BG
+@onready var clip_box: Control  = $HBox/ClipBox
+@onready var label: Label       = $HBox/ClipBox/Label
+@onready var up_btn: Button     = $HBox/UpButton
+@onready var down_btn: Button   = $HBox/DownButton
 @onready var delete_btn: Button = $HBox/DeleteButton
 
 
@@ -37,6 +41,11 @@ func setup(idx: int, text: String, vol_id: String, vol_title: String) -> void:
 func set_selected(on: bool) -> void:
 	_is_selected = on
 	bg.color = COLOR_SELECTED if on else COLOR_NORMAL
+
+
+func set_move_buttons(can_up: bool, can_down: bool) -> void:
+	up_btn.disabled = not can_up
+	down_btn.disabled = not can_down
 
 
 func reset_hover() -> void:
@@ -83,6 +92,14 @@ func _gui_input(event: InputEvent) -> void:
 			# Only select if click wasn't on the delete button
 			if not delete_btn.get_global_rect().has_point(event.global_position):
 				selected.emit(item_index)
+
+
+func _on_up_pressed() -> void:
+	move_up_requested.emit(item_index)
+
+
+func _on_down_pressed() -> void:
+	move_down_requested.emit(item_index)
 
 
 func _on_delete_button_pressed() -> void:

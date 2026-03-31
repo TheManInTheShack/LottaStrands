@@ -62,6 +62,9 @@ func create_volume(meta: Dictionary, text: String) -> void:
 func delete_volume(volume_id: String) -> void:
 	API.delete_volume(volume_id)
 
+func reorder_volumes(order: Array) -> void:
+	API.reorder_volumes(order)
+
 func insert_marker(before_paragraph_id: String, level: String, heading: String = "") -> void:
 	API.insert_marker(before_paragraph_id, level, heading)
 
@@ -107,6 +110,8 @@ func _on_api_response(endpoint: String, data: Variant) -> void:
 	elif endpoint == "/volumes/delete":
 		load_corpus()
 		graph_changed.emit()
+	elif endpoint == "/volumes/reorder":
+		pass  # optimistic update already applied in CorpusMenu
 	elif endpoint == "/curate/insert_marker":
 		load_paragraphs()
 		graph_changed.emit()
