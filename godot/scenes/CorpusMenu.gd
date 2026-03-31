@@ -101,7 +101,7 @@ func _on_volume_item_selected(idx: int) -> void:
 
 
 func _on_curate_pressed() -> void:
-	get_tree().change_scene_to_file("res://scenes/Main.tscn")
+	get_tree().change_scene_to_file("res://scenes/CurationScreen.tscn")
 
 
 # --- Delete ---

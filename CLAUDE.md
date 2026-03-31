@@ -62,13 +62,22 @@ godot/
     AppState.gd           Signals + state; UI reads from here, never calls API directly
   scenes/
     CorpusMenu            Entry screen; volume list with marquee scroll + delete; New Volume form
-    Main                  Curation screen; full-width CurationView
+    CurationScreen        Curation screen; header bar + full-width CurationView
     CurationView          Scrollable paragraph cards with InsertStrips and HierarchyMarkers
     ParagraphCard         Single paragraph display
     InsertStrip           Tap target between cards to insert scene boundary
     HierarchyMarker       Colored rule showing existing scene boundary (removable)
     VolumeListItem        Volume row with marquee scroll on hover + delete button
 ```
+
+## Code hygiene
+After a significant batch of changes, prompt the user to do a cleanup pass:
+- Dead files (scenes, scripts, assets no longer referenced)
+- Stale names (files whose names no longer reflect their purpose)
+- Dead artifact data files in `model/data/` or `model/source/`
+- Orphaned routes or API endpoints with no UI callers
+
+The user prefers a garbage-free codebase. Raise it proactively; don't wait to be asked.
 
 ## Run locally
 ```bash

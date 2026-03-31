@@ -1,5 +1,5 @@
-## Main.gd
-## Curation view. Header bar with navigation + full-screen scrollable paragraph list.
+## CurationScreen.gd
+## Curation screen. Header bar with navigation + full-screen scrollable paragraph list.
 
 extends Control
 
