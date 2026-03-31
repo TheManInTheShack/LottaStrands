@@ -8,7 +8,7 @@ config_version=5
 
 config/name="LottaStrands"
 config/description="Narrative knowledge graph interface"
-run/main_scene="res://scenes/TitleCard.tscn"
+run/main_scene="res://scenes/PlotZIntro.tscn"
 config/features=PackedStringArray("4.3")
 
 [autoload]

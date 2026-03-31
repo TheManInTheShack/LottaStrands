@@ -1,13 +1,8 @@
-[gd_scene load_steps=6 format=3]
+[gd_scene load_steps=4 format=3]
 
 [ext_resource type="Script" path="res://scenes/TitleCard.gd" id="1"]
 
-; Word sequence font — chunky bold sans-serif
-[sub_resource type="SystemFont" id="SystemFont_word"]
-font_names = PackedStringArray("Impact", "Arial Black", "Liberation Sans Bold", "DejaVu Sans Bold")
-font_weight = 900
-
-; LOTTA STRANDS font — swap this for a custom .ttf for best results
+; LOTTA STRANDS font — swap for a custom .ttf for best results
 ; Recommended: Boogaloo, Righteous, or Monoton from Google Fonts
 ; Drop the .ttf into godot/fonts/ and change this to:
 ;   [ext_resource type="FontFile" path="res://fonts/YourFont.ttf" id="FontFile_title"]
@@ -35,18 +30,6 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 color = Color(0, 0, 0, 1)
 
-; Word label — centered full-screen, text centered within it
-[node name="WordLabel" type="Label" parent="."]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-theme_override_fonts/font = SubResource("SystemFont_word")
-theme_override_font_sizes/font_size = 72
-horizontal_alignment = 1
-vertical_alignment = 1
-
-; Final title container — centered horizontally and vertically
 [node name="TitleContainer" type="VBoxContainer" parent="."]
 layout_mode = 1
 anchors_preset = 8

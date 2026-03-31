@@ -61,7 +61,8 @@ godot/
     API.gd                HTTP layer; _http_get/_http_post; one node per request
     AppState.gd           Signals + state; UI reads from here, never calls API directly
   scenes/
-    TitleCard             Opening animation; PLOT word sequence → PLOTZ → final title → CorpusMenu
+    PlotZIntro            Engine-level opening: PLOT word sequence → PLOTZ → TitleCard (reusable)
+    TitleCard             Corpus-specific title screen: "LOTTA STRANDS" → CorpusMenu (swap per repo)
     CorpusMenu            Entry screen; volume list with marquee scroll + delete; New Volume form
     CurationScreen        Curation screen; header bar + full-width CurationView
     CurationView          Scrollable paragraph cards with InsertStrips and HierarchyMarkers
