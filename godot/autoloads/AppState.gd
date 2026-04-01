@@ -11,6 +11,7 @@ signal scene_selected(scene: Dictionary)
 signal scene_detail_loaded(detail: Dictionary)
 signal paragraphs_loaded(paragraphs: Array)
 signal volume_created(data: Dictionary)
+signal volume_updated(data: Dictionary)
 signal graph_changed()
 signal error_occurred(message: String)
 
@@ -65,6 +66,14 @@ func delete_volume(volume_id: String) -> void:
 func reorder_volumes(order: Array) -> void:
 	API.reorder_volumes(order)
 
+func update_volume(volume_id: String, year: Variant, authors: Array, text: String) -> void:
+	var body: Dictionary = {"volume_id": volume_id, "authors": authors}
+	if year != null:
+		body["year"] = year
+	if not text.is_empty():
+		body["text"] = text
+	API.update_volume(body)
+
 func insert_marker(before_paragraph_id: String, level: String, heading: String = "") -> void:
 	API.insert_marker(before_paragraph_id, level, heading)
 
@@ -112,6 +121,10 @@ func _on_api_response(endpoint: String, data: Variant) -> void:
 		graph_changed.emit()
 	elif endpoint == "/volumes/reorder":
 		pass  # optimistic update already applied in CorpusMenu
+	elif endpoint == "/volumes/update":
+		volume_updated.emit(data)
+		load_corpus()
+		graph_changed.emit()
 	elif endpoint == "/curate/insert_marker":
 		load_paragraphs()
 		graph_changed.emit()

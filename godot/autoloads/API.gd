@@ -41,6 +41,9 @@ func delete_volume(volume_id: String) -> void:
 func reorder_volumes(order: Array) -> void:
 	_http_post("/volumes/reorder", {"order": order})
 
+func update_volume(body: Dictionary) -> void:
+	_http_post("/volumes/update", body)
+
 func insert_marker(before_paragraph_id: String, level: String, heading: String = "") -> void:
 	_http_post("/curate/insert_marker", {
 		"before_paragraph_id": before_paragraph_id,

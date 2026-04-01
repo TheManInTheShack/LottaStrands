@@ -44,3 +44,10 @@ class InsertMarkerRequest(BaseModel):
 
 class VolumeReorder(BaseModel):
     order: List[str]  # volume IDs in desired display order
+
+
+class VolumeUpdate(BaseModel):
+    volume_id: str
+    year: Optional[int] = None          # None = leave unchanged
+    authors: Optional[List[str]] = None  # None = leave unchanged; [] = clear
+    text: Optional[str] = None          # if provided, replaces source and resets curation

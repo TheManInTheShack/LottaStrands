@@ -90,14 +90,14 @@ theme_override_constants/separation = 4
 
 [node name="DetailMeta" type="Label" parent="HBox/Content/VolumeDetail/DetailVBox"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 12
+theme_override_font_sizes/font_size = 11
 theme_override_colors/font_color = Color(0.75, 0.75, 0.75, 1)
 text = ""
 autowrap_mode = 3
 
 [node name="DetailCounts" type="Label" parent="HBox/Content/VolumeDetail/DetailVBox"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 12
+theme_override_font_sizes/font_size = 11
 theme_override_colors/font_color = Color(0.55, 0.55, 0.55, 1)
 text = ""
 
@@ -113,6 +113,12 @@ text = "New Volume"
 layout_mode = 2
 custom_minimum_size = Vector2(0, 44)
 text = "Curate"
+disabled = true
+
+[node name="EditDetails" type="Button" parent="HBox/Content"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 44)
+text = "Edit Details"
 disabled = true
 
 [node name="Sep3" type="HSeparator" parent="HBox/Content"]
@@ -261,6 +267,98 @@ layout_mode = 2
 custom_minimum_size = Vector2(80, 44)
 text = "Create"
 
+[node name="EditVolumePanel" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_form")
+visible = false
+
+[node name="EditVBox" type="VBoxContainer" parent="EditVolumePanel"]
+layout_mode = 2
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="EditFormTitle" type="Label" parent="EditVolumePanel/EditVBox"]
+layout_mode = 2
+text = "Edit Volume Details"
+theme_override_font_sizes/font_size = 20
+horizontal_alignment = 1
+
+[node name="EditTitleDisplay" type="Label" parent="EditVolumePanel/EditVBox"]
+layout_mode = 2
+text = ""
+theme_override_font_sizes/font_size = 16
+theme_override_colors/font_color = Color(0.7, 0.7, 0.7, 1)
+horizontal_alignment = 1
+
+[node name="EditYearRow" type="HBoxContainer" parent="EditVolumePanel/EditVBox"]
+layout_mode = 2
+
+[node name="EditYearLbl" type="Label" parent="EditVolumePanel/EditVBox/EditYearRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(90, 0)
+text = "Year"
+vertical_alignment = 1
+
+[node name="EditYearInput" type="LineEdit" parent="EditVolumePanel/EditVBox/EditYearRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "e.g. 1998"
+
+[node name="EditAuthorsRow" type="HBoxContainer" parent="EditVolumePanel/EditVBox"]
+layout_mode = 2
+
+[node name="EditAuthorsLbl" type="Label" parent="EditVolumePanel/EditVBox/EditAuthorsRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(90, 0)
+text = "Author(s)"
+vertical_alignment = 1
+
+[node name="EditAuthorsInput" type="LineEdit" parent="EditVolumePanel/EditVBox/EditAuthorsRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Comma-separated"
+
+[node name="EditTextLbl" type="Label" parent="EditVolumePanel/EditVBox"]
+layout_mode = 2
+text = "Replace source text (optional):"
+
+[node name="EditTextWarning" type="Label" parent="EditVolumePanel/EditVBox"]
+layout_mode = 2
+text = "Warning: replacing the source text will reset all curation history for this volume."
+theme_override_colors/font_color = Color(0.9, 0.7, 0.2, 1)
+theme_override_font_sizes/font_size = 12
+autowrap_mode = 3
+
+[node name="EditTextInput" type="TextEdit" parent="EditVolumePanel/EditVBox"]
+layout_mode = 2
+size_flags_vertical = 3
+placeholder_text = "Leave blank to keep existing text..."
+
+[node name="EditButtons" type="HBoxContainer" parent="EditVolumePanel/EditVBox"]
+layout_mode = 2
+
+[node name="EditCancelButton" type="Button" parent="EditVolumePanel/EditVBox/EditButtons"]
+layout_mode = 2
+custom_minimum_size = Vector2(80, 44)
+text = "Cancel"
+
+[node name="EditFormSpacer" type="Control" parent="EditVolumePanel/EditVBox/EditButtons"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="EditStatusLabel" type="Label" parent="EditVolumePanel/EditVBox/EditButtons"]
+layout_mode = 2
+text = ""
+vertical_alignment = 1
+
+[node name="EditSubmitButton" type="Button" parent="EditVolumePanel/EditVBox/EditButtons"]
+layout_mode = 2
+custom_minimum_size = Vector2(80, 44)
+text = "Save"
+
 [node name="DeleteConfirm" type="ConfirmationDialog" parent="."]
 title = "Delete Volume"
 dialog_text = ""
@@ -270,5 +368,8 @@ ok_button_text = "Delete"
 [connection signal="canceled" from="DeleteConfirm" to="." method="_on_delete_cancelled"]
 [connection signal="pressed" from="HBox/Content/NewVolume" to="." method="_on_new_volume_pressed"]
 [connection signal="pressed" from="HBox/Content/Curate" to="." method="_on_curate_pressed"]
+[connection signal="pressed" from="HBox/Content/EditDetails" to="." method="_on_edit_volume_pressed"]
 [connection signal="pressed" from="NewVolumePanel/FormVBox/FormButtons/CancelButton" to="." method="_on_cancel_form"]
 [connection signal="pressed" from="NewVolumePanel/FormVBox/FormButtons/SubmitButton" to="." method="_on_submit_volume"]
+[connection signal="pressed" from="EditVolumePanel/EditVBox/EditButtons/EditCancelButton" to="." method="_on_cancel_edit"]
+[connection signal="pressed" from="EditVolumePanel/EditVBox/EditButtons/EditSubmitButton" to="." method="_on_submit_edit"]

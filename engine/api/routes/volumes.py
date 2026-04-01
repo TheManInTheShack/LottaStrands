@@ -3,8 +3,8 @@ from fastapi import APIRouter, HTTPException
 from pathlib import Path
 
 from engine.api import state
-from engine.api.models import VolumeCreate, VolumeDelete, VolumeReorder
-from engine.ingest.flat_ingest import flat_ingest
+from engine.api.models import VolumeCreate, VolumeDelete, VolumeReorder, VolumeUpdate
+from engine.ingest.flat_ingest import flat_ingest, replace_volume_text
 
 router = APIRouter()
 
@@ -101,4 +101,28 @@ def reorder_volumes(body: VolumeReorder):
     hierarchy = json.loads(HIERARCHY_PATH.read_text())
     hierarchy["volume_order"] = body.order
     HIERARCHY_PATH.write_text(json.dumps(hierarchy, indent=2))
+    return {"status": "ok"}
+
+
+@router.post("/volumes/update")
+def update_volume(body: VolumeUpdate):
+    g = state.get_graph()
+    volume = g.nodes.get(body.volume_id)
+    if not volume or "Volume" not in volume.labels:
+        raise HTTPException(status_code=404, detail="Volume not found")
+
+    if body.year is not None:
+        volume.properties["year"] = int(body.year)
+    if body.authors is not None:
+        volume.properties["authors"] = body.authors
+
+    if body.text:
+        replace_volume_text(g, body.volume_id, body.text)
+        CURATION_PATH.parent.mkdir(parents=True, exist_ok=True)
+        CURATION_PATH.write_text("[]")
+
+    GRAPH_PATH.parent.mkdir(parents=True, exist_ok=True)
+    g.save(str(GRAPH_PATH))
+    state.load(GRAPH_PATH, CURATION_PATH)
+
     return {"status": "ok"}

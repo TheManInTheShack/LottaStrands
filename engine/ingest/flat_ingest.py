@@ -56,3 +56,39 @@ def flat_ingest(text: str, config: dict, existing_graph: Graph = None) -> Graph:
 
     print(f"Flat ingest: added '{config['title']}' — {len(blocks)} paragraphs")
     return g
+
+
+def replace_volume_text(g: Graph, volume_id: str, text: str) -> None:
+    """Remove all descendant nodes of a Volume and re-ingest new text.
+
+    The Volume node itself is preserved (title, type, authors, etc. unchanged).
+    Called by the update endpoint when source text is replaced; caller must
+    reset curation.json afterward.
+    """
+    to_delete: set = set()
+    queue = [volume_id]
+    while queue:
+        nid = queue.pop()
+        for edge in g.get_edges_from(nid):
+            if edge.type == "CONTAINS" and edge.to_id not in to_delete:
+                to_delete.add(edge.to_id)
+                queue.append(edge.to_id)
+
+    g.edges = [e for e in g.edges
+               if e.from_id not in to_delete and e.to_id not in to_delete]
+    for nid in to_delete:
+        del g.nodes[nid]
+
+    scene = g.create_node(["Scene"], {"heading": "FULL TEXT", "index": 1})
+    g.create_edge("CONTAINS", volume_id, scene.id, {"index": 1})
+
+    blocks = [b.strip() for b in text.split("\n\n") if b.strip()]
+    prev = None
+    for i, block in enumerate(blocks, start=1):
+        para = g.create_node(["Paragraph"], {"text": block, "index": i, "type": "text"})
+        g.create_edge("CONTAINS", scene.id, para.id, {"index": i})
+        if prev:
+            g.create_edge("PRECEDES", prev.id, para.id)
+        prev = para
+
+    print(f"replace_volume_text: '{volume_id}' — {len(blocks)} paragraphs")

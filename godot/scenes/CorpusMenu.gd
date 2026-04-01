@@ -23,11 +23,20 @@ const VolumeListItemScene = preload("res://scenes/VolumeListItem.tscn")
 @onready var detail_meta: Label            = $HBox/Content/VolumeDetail/DetailVBox/DetailMeta
 @onready var detail_counts: Label          = $HBox/Content/VolumeDetail/DetailVBox/DetailCounts
 
+@onready var edit_button: Button            = $HBox/Content/EditDetails
+@onready var edit_panel: PanelContainer     = $EditVolumePanel
+@onready var edit_title_lbl: Label          = $EditVolumePanel/EditVBox/EditTitleDisplay
+@onready var edit_year_input: LineEdit      = $EditVolumePanel/EditVBox/EditYearRow/EditYearInput
+@onready var edit_authors_input: LineEdit   = $EditVolumePanel/EditVBox/EditAuthorsRow/EditAuthorsInput
+@onready var edit_text_input: TextEdit      = $EditVolumePanel/EditVBox/EditTextInput
+@onready var edit_status: Label             = $EditVolumePanel/EditVBox/EditButtons/EditStatusLabel
+
 @onready var delete_confirm: ConfirmationDialog = $DeleteConfirm
 
 var _volume_items: Array = []
 var _selected_idx: int = -1
 var _pending_delete_id: String = ""
+var _editing_volume_id: String = ""
 # Parallel array to _volume_items; holds raw volume dicts from the API
 var _volumes_data: Array = []
 
@@ -36,6 +45,7 @@ func _ready() -> void:
 	AppState.corpus_loaded.connect(_on_corpus_loaded)
 	AppState.graph_changed.connect(_on_graph_changed)
 	AppState.volume_created.connect(_on_volume_created)
+	AppState.volume_updated.connect(_on_volume_updated)
 	AppState.error_occurred.connect(_on_api_error)
 
 	type_option.add_item("screenplay")
@@ -67,6 +77,7 @@ func _populate_volumes(vols: Array) -> void:
 		volumes_panel.visible = false
 		detail_panel.visible = false
 		curate_button.disabled = true
+		edit_button.disabled = true
 		return
 
 	empty_hint.visible = false
@@ -74,10 +85,12 @@ func _populate_volumes(vols: Array) -> void:
 
 	for i in vols.size():
 		var vol: Dictionary = vols[i]
-		var lbl := "%s (%s, %s)" % [
+		var yr: Variant = vol.get("year")
+		var yr_str: String = str(int(yr)) if yr != null else ""
+		var lbl: String = "%s (%s%s)" % [
 			vol.get("title", ""),
 			vol.get("type", ""),
-			str(vol.get("year", ""))
+			", " + yr_str if yr_str else "",
 		]
 		var item = VolumeListItemScene.instantiate()
 		volumes_list.add_child(item)
@@ -97,6 +110,7 @@ func _populate_volumes(vols: Array) -> void:
 	AppState.selected_volume = vols[0]
 	_update_detail(vols[0])
 	curate_button.disabled = false
+	edit_button.disabled = false
 
 
 func _select_item(idx: int) -> void:
@@ -120,8 +134,8 @@ func _update_detail(vol: Dictionary) -> void:
 	var added: String = vol.get("added_at", "")
 	if t:
 		parts.append(t)
-	if y:
-		parts.append(str(y))
+	if y != null:
+		parts.append(str(int(y)))
 	if added:
 		parts.append("added " + added.left(10))
 	detail_meta.text = "  •  ".join(parts)
@@ -193,6 +207,58 @@ func _on_delete_cancelled() -> void:
 		item.reset_hover()
 
 
+# --- Edit Volume form ---
+
+func _on_edit_volume_pressed() -> void:
+	if _selected_idx < 0 or _selected_idx >= _volumes_data.size():
+		return
+	var vol: Dictionary = _volumes_data[_selected_idx]
+	_editing_volume_id = vol.get("id", "")
+	edit_title_lbl.text = vol.get("title", "")
+	var y: Variant = vol.get("year")
+	edit_year_input.text = str(int(y)) if y != null else ""
+	var authors: Array = vol.get("authors", [])
+	edit_authors_input.text = ", ".join(authors)
+	edit_text_input.text = ""
+	edit_status.text = ""
+	_set_edit_submitting(false)
+	edit_panel.visible = true
+
+
+func _on_cancel_edit() -> void:
+	edit_panel.visible = false
+	_editing_volume_id = ""
+
+
+func _set_edit_submitting(submitting: bool) -> void:
+	$EditVolumePanel/EditVBox/EditButtons/EditSubmitButton.disabled = submitting
+	$EditVolumePanel/EditVBox/EditButtons/EditCancelButton.disabled = submitting
+
+
+func _on_volume_updated(_data: Dictionary) -> void:
+	edit_panel.visible = false
+	_set_edit_submitting(false)
+	_editing_volume_id = ""
+
+
+func _on_submit_edit() -> void:
+	if _editing_volume_id.is_empty():
+		return
+	var yr_str: String = edit_year_input.text.strip_edges()
+	var year_val: Variant = null
+	if not yr_str.is_empty() and yr_str.is_valid_int():
+		year_val = int(yr_str)
+	var authors: Array = []
+	var raw: String = edit_authors_input.text.strip_edges()
+	if not raw.is_empty():
+		for a in raw.split(","):
+			authors.append(a.strip_edges())
+	var new_text: String = edit_text_input.text.strip_edges()
+	edit_status.text = "Saving..."
+	_set_edit_submitting(true)
+	AppState.update_volume(_editing_volume_id, year_val, authors, new_text)
+
+
 # --- New Volume form ---
 
 func _on_new_volume_pressed() -> void:
@@ -216,10 +282,12 @@ func _on_volume_created(_data: Dictionary) -> void:
 
 
 func _on_api_error(message: String) -> void:
-	# Show errors that occur while the form is open
 	if form_panel.visible:
 		form_status.text = message
 		_set_form_submitting(false)
+	elif edit_panel.visible:
+		edit_status.text = message
+		_set_edit_submitting(false)
 
 
 func _on_submit_volume() -> void:
