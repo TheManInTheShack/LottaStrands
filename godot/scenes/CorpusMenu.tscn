@@ -118,7 +118,7 @@ disabled = true
 [node name="EditDetails" type="Button" parent="HBox/Content"]
 layout_mode = 2
 custom_minimum_size = Vector2(0, 44)
-text = "Edit Details"
+text = "Edit Volume Source"
 disabled = true
 
 [node name="Sep3" type="HSeparator" parent="HBox/Content"]
