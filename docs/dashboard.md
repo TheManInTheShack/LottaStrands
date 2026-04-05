@@ -15,6 +15,17 @@
 - [[workflow/plot-stages]] — *(to write)* the four PLOT stages
 - [[workflow/curation-flow]] — *(to write)* flat ingest → marker insertion
 
+## Theory
+- [[theory/semiotics]] — how meaning is made from signs
+- [[theory/narrative]] — narrative vs. history; structural levels
+- People: [[theory/people/saussure]] · [[theory/people/peirce]] · [[theory/people/barthes]] · [[theory/people/lacan]] · [[theory/people/derrida]] · [[theory/people/eco]] · [[theory/people/propp]] · [[theory/people/greimas]]
+
+## Concepts
+- [[concepts/introduction]] — everything is data; structure; LOTs framework
+- [[concepts/work-overview]] — topics, relevant theory, comparison works
+- [[concepts/methodology]] — hierarchy levels, fragmentization, Plotz mapping
+- [[concepts/pov]] — narrative/history timelines, the Vern problem
+
 ## How-to
 - [[howto/new-model-repo]] — spin up a new corpus instance
 
