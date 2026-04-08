@@ -1,5 +1,7 @@
 # LottaStrands / Plotz — Project Briefing
 
+> **Plotz** is a context layering engine for narrative text.
+
 > **Session start:** read `docs/status.md` and the most recent `docs/sessions/YYYY-MM-DD.md`.
 > Update both when significant things are decided or built.
 

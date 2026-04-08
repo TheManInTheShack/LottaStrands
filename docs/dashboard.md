@@ -1,6 +1,6 @@
 # Plotz / LottaStrands
 
-> Narrative knowledge graph engine. PLOT = Parse → Lexicon → Ontology → Taxonomy.
+> Context layering engine for narrative text. PLOT = Parse → Lexicon → Ontology → Taxonomy.
 
 ## Now
 → [[status]]
