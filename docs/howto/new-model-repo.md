@@ -163,9 +163,11 @@ Use **New Volume** to paste in your first source text. The API will ingest it, b
 
 ## Future: engine as a package
 
-When the engine is extracted into a standalone package (pip install / git submodule), this process simplifies to:
+The intended end state is that each corpus instance is a self-contained box: a thin shell repo that installs the Plotz engine as a dependency and adds only what is corpus-specific (title, source text, graph data, docs vault). The engine itself lives nowhere inside that box — it's pulled in. New corpus = new shell, not a fork.
 
-1. Create a new repo
+When that separation is done, this process simplifies to:
+
+1. Create a new repo from the corpus shell template
 2. Install the engine package
 3. Create `TitleCard.tscn` from the provided template
 4. Configure `hierarchy.json` and `CLAUDE.md`
