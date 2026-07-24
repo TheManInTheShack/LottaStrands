@@ -29,6 +29,9 @@
 ## How-to
 - [[howto/new-model-repo]] — spin up a new corpus instance
 
+## Plotz Migration
+- [[plotz-migration/engine-corpus-audit]] — pre-extraction audit: what blocks pulling the engine out into its own repo
+
 ## Decisions
 - [[decisions/001-flat-ingest]] — why flat ingest over auto-parse
 - [[decisions/002-godot-ui]] — why Godot
