@@ -1,0 +1,323 @@
+## CorpusMenu.gd
+## Entry point screen. Shows volumes, action buttons, and inline New Volume form.
+## Delete button on each volume row triggers a confirmation dialog.
+
+extends Control
+
+const VolumeListItemScene = preload("res://scenes/VolumeListItem.tscn")
+
+@onready var empty_hint: Label              = $HBox/Content/EmptyHint
+@onready var volumes_panel: PanelContainer  = $HBox/Content/VolumesPanel
+@onready var volumes_list: VBoxContainer    = $HBox/Content/VolumesPanel/VolumesScroll/VolumesList
+@onready var curate_button: Button          = $HBox/Content/Curate
+
+@onready var form_panel: PanelContainer     = $NewVolumePanel
+@onready var title_input: LineEdit          = $NewVolumePanel/FormVBox/TitleRow/TitleInput
+@onready var type_option: OptionButton      = $NewVolumePanel/FormVBox/TypeRow/TypeOption
+@onready var year_input: LineEdit           = $NewVolumePanel/FormVBox/YearRow/YearInput
+@onready var author_input: LineEdit         = $NewVolumePanel/FormVBox/AuthorRow/AuthorInput
+@onready var text_input: TextEdit           = $NewVolumePanel/FormVBox/TextInput
+@onready var form_status: Label             = $NewVolumePanel/FormVBox/FormButtons/StatusLabel
+
+@onready var detail_panel: VBoxContainer   = $HBox/Content/VolumeDetail
+@onready var detail_meta: Label            = $HBox/Content/VolumeDetail/DetailVBox/DetailMeta
+@onready var detail_counts: Label          = $HBox/Content/VolumeDetail/DetailVBox/DetailCounts
+
+@onready var edit_button: Button            = $HBox/Content/EditDetails
+@onready var edit_panel: PanelContainer     = $EditVolumePanel
+@onready var edit_title_lbl: Label          = $EditVolumePanel/EditVBox/EditTitleDisplay
+@onready var edit_year_input: LineEdit      = $EditVolumePanel/EditVBox/EditYearRow/EditYearInput
+@onready var edit_authors_input: LineEdit   = $EditVolumePanel/EditVBox/EditAuthorsRow/EditAuthorsInput
+@onready var edit_text_input: TextEdit      = $EditVolumePanel/EditVBox/EditTextInput
+@onready var edit_status: Label             = $EditVolumePanel/EditVBox/EditButtons/EditStatusLabel
+
+@onready var delete_confirm: ConfirmationDialog = $DeleteConfirm
+
+var _volume_items: Array = []
+var _selected_idx: int = -1
+var _pending_delete_id: String = ""
+var _editing_volume_id: String = ""
+# Parallel array to _volume_items; holds raw volume dicts from the API
+var _volumes_data: Array = []
+
+
+func _ready() -> void:
+	AppState.corpus_loaded.connect(_on_corpus_loaded)
+	AppState.graph_changed.connect(_on_graph_changed)
+	AppState.volume_created.connect(_on_volume_created)
+	AppState.volume_updated.connect(_on_volume_updated)
+	AppState.error_occurred.connect(_on_api_error)
+
+	type_option.add_item("screenplay")
+	type_option.add_item("novel")
+	type_option.add_item("short story")
+	type_option.add_item("unknown")
+
+	if AppState.corpus.size() > 0:
+		_on_corpus_loaded(AppState.corpus)
+
+
+func _on_corpus_loaded(corpus: Dictionary) -> void:
+	_populate_volumes(corpus.get("volumes", []))
+
+
+func _on_graph_changed() -> void:
+	AppState.load_corpus()
+
+
+func _populate_volumes(vols: Array) -> void:
+	for child in volumes_list.get_children():
+		child.queue_free()
+	_volume_items.clear()
+	_volumes_data.clear()
+	_selected_idx = -1
+
+	if vols.size() == 0:
+		empty_hint.visible = true
+		volumes_panel.visible = false
+		detail_panel.visible = false
+		curate_button.disabled = true
+		edit_button.disabled = true
+		return
+
+	empty_hint.visible = false
+	volumes_panel.visible = true
+
+	for i in vols.size():
+		var vol: Dictionary = vols[i]
+		var yr: Variant = vol.get("year")
+		var yr_str: String = str(int(yr)) if yr != null else ""
+		var lbl: String = "%s (%s%s)" % [
+			vol.get("title", ""),
+			vol.get("type", ""),
+			", " + yr_str if yr_str else "",
+		]
+		var item = VolumeListItemScene.instantiate()
+		volumes_list.add_child(item)
+		item.setup(i, lbl, vol.get("id", ""), vol.get("title", ""))
+		item.selected.connect(_on_volume_item_selected)
+		item.delete_requested.connect(_on_delete_requested)
+		item.move_up_requested.connect(_on_move_up)
+		item.move_down_requested.connect(_on_move_down)
+		_volume_items.append(item)
+		_volumes_data.append(vol)
+
+	# Disable boundary move buttons
+	for i in _volume_items.size():
+		_volume_items[i].set_move_buttons(i > 0, i < _volume_items.size() - 1)
+
+	_select_item(0)
+	AppState.selected_volume = vols[0]
+	_update_detail(vols[0])
+	curate_button.disabled = false
+	edit_button.disabled = false
+
+
+func _select_item(idx: int) -> void:
+	for i in _volume_items.size():
+		_volume_items[i].set_selected(i == idx)
+	_selected_idx = idx
+
+
+func _on_volume_item_selected(idx: int) -> void:
+	_select_item(idx)
+	if idx < _volumes_data.size():
+		AppState.selected_volume = _volumes_data[idx]
+		_update_detail(_volumes_data[idx])
+	curate_button.disabled = false
+
+
+func _update_detail(vol: Dictionary) -> void:
+	var parts: Array = []
+	var t: String = vol.get("type", "")
+	var y: Variant = vol.get("year")
+	var added: String = vol.get("added_at", "")
+	if t:
+		parts.append(t)
+	if y != null:
+		parts.append(str(int(y)))
+	if added:
+		parts.append("added " + added.left(10))
+	detail_meta.text = "  •  ".join(parts)
+
+	var counts: Dictionary = vol.get("counts", {})
+	var count_parts: Array = []
+	for label in ["Scene", "Paragraph", "Shot", "Sentence"]:
+		if counts.has(label):
+			count_parts.append("%s: %d" % [label, counts[label]])
+	detail_counts.text = "  •  ".join(count_parts)
+
+	detail_panel.visible = true
+
+
+func _on_curate_pressed() -> void:
+	get_tree().change_scene_to_file("res://scenes/CurationScreen.tscn")
+
+
+# --- Reorder ---
+
+func _on_move_up(idx: int) -> void:
+	if idx < 1:
+		return
+	var tmp: Dictionary = _volumes_data[idx - 1]
+	_volumes_data[idx - 1] = _volumes_data[idx]
+	_volumes_data[idx] = tmp
+	_populate_volumes(_volumes_data.duplicate())
+	_select_item(idx - 1)
+	AppState.reorder_volumes(_volume_ids())
+
+
+func _on_move_down(idx: int) -> void:
+	if idx >= _volumes_data.size() - 1:
+		return
+	var tmp: Dictionary = _volumes_data[idx + 1]
+	_volumes_data[idx + 1] = _volumes_data[idx]
+	_volumes_data[idx] = tmp
+	_populate_volumes(_volumes_data.duplicate())
+	_select_item(idx + 1)
+	AppState.reorder_volumes(_volume_ids())
+
+
+func _volume_ids() -> Array:
+	var ids: Array = []
+	for vol in _volumes_data:
+		ids.append(vol.get("id", ""))
+	return ids
+
+
+# --- Delete ---
+
+func _on_delete_requested(volume_id: String, volume_title: String) -> void:
+	_pending_delete_id = volume_id
+	delete_confirm.dialog_text = (
+		"Delete \"%s\"?\n\nThis will remove the entire volume subgraph and cannot be undone." % volume_title
+	)
+	delete_confirm.popup_centered()
+
+
+func _on_delete_confirmed() -> void:
+	if _pending_delete_id:
+		AppState.delete_volume(_pending_delete_id)
+	_pending_delete_id = ""
+
+
+func _on_delete_cancelled() -> void:
+	_pending_delete_id = ""
+	for item in _volume_items:
+		item.reset_hover()
+
+
+# --- Edit Volume form ---
+
+func _on_edit_volume_pressed() -> void:
+	if _selected_idx < 0 or _selected_idx >= _volumes_data.size():
+		return
+	var vol: Dictionary = _volumes_data[_selected_idx]
+	_editing_volume_id = vol.get("id", "")
+	edit_title_lbl.text = vol.get("title", "")
+	var y: Variant = vol.get("year")
+	edit_year_input.text = str(int(y)) if y != null else ""
+	var authors: Array = vol.get("authors", [])
+	edit_authors_input.text = ", ".join(authors)
+	edit_text_input.text = ""
+	edit_status.text = ""
+	_set_edit_submitting(false)
+	edit_panel.visible = true
+
+
+func _on_cancel_edit() -> void:
+	edit_panel.visible = false
+	_editing_volume_id = ""
+
+
+func _set_edit_submitting(submitting: bool) -> void:
+	$EditVolumePanel/EditVBox/EditButtons/EditSubmitButton.disabled = submitting
+	$EditVolumePanel/EditVBox/EditButtons/EditCancelButton.disabled = submitting
+
+
+func _on_volume_updated(_data: Dictionary) -> void:
+	edit_panel.visible = false
+	_set_edit_submitting(false)
+	_editing_volume_id = ""
+
+
+func _on_submit_edit() -> void:
+	if _editing_volume_id.is_empty():
+		return
+	var yr_str: String = edit_year_input.text.strip_edges()
+	var year_val: Variant = null
+	if not yr_str.is_empty() and yr_str.is_valid_int():
+		year_val = int(yr_str)
+	var authors: Array = []
+	var raw: String = edit_authors_input.text.strip_edges()
+	if not raw.is_empty():
+		for a in raw.split(","):
+			authors.append(a.strip_edges())
+	var new_text: String = edit_text_input.text.strip_edges()
+	edit_status.text = "Saving..."
+	_set_edit_submitting(true)
+	AppState.update_volume(_editing_volume_id, year_val, authors, new_text)
+
+
+# --- New Volume form ---
+
+func _on_new_volume_pressed() -> void:
+	form_status.text = ""
+	_set_form_submitting(false)
+	form_panel.visible = true
+
+
+func _on_cancel_form() -> void:
+	form_panel.visible = false
+
+
+func _set_form_submitting(submitting: bool) -> void:
+	$NewVolumePanel/FormVBox/FormButtons/SubmitButton.disabled = submitting
+	$NewVolumePanel/FormVBox/FormButtons/CancelButton.disabled = submitting
+
+
+func _on_volume_created(_data: Dictionary) -> void:
+	form_panel.visible = false
+	_set_form_submitting(false)
+
+
+func _on_api_error(message: String) -> void:
+	if form_panel.visible:
+		form_status.text = message
+		_set_form_submitting(false)
+	elif edit_panel.visible:
+		edit_status.text = message
+		_set_edit_submitting(false)
+
+
+func _on_submit_volume() -> void:
+	var title := title_input.text.strip_edges()
+	var text  := text_input.text.strip_edges()
+	if title.is_empty():
+		form_status.text = "Title required."
+		return
+	if text.is_empty():
+		form_status.text = "Source text required."
+		return
+
+	form_status.text = "Creating..."
+	_set_form_submitting(true)
+
+	var type_map := ["screenplay", "novel", "short story", "unknown"]
+	var authors: Array = []
+	var raw := author_input.text.strip_edges()
+	if not raw.is_empty():
+		for a in raw.split(","):
+			authors.append(a.strip_edges())
+
+	var year_val = null
+	var yr := year_input.text.strip_edges()
+	if not yr.is_empty() and yr.is_valid_int():
+		year_val = int(yr)
+
+	AppState.create_volume({
+		"title": title,
+		"type": type_map[type_option.selected],
+		"year": year_val,
+		"authors": authors,
+	}, text)

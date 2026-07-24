@@ -3,6 +3,18 @@ There's a lotta strands in the ol' Duder's head.
 
 This is a generalized system for storing and analyzing knowledge about narratives, using the screenplay of The Big Lebowski as a primary example. The goal is to produce a **property graph** — a structured knowledge graph of nodes and edges with properties — that captures the full narrative in a queryable, extensible form. Other narratives (novels, series, comics, etc.) are equally valid inputs.
 
+## About the name: Plotz / plotzed
+
+The engine and product built on this system is called **Plotz** (website: [plotzed.com](https://plotzed.com)).
+
+The name works on a few levels:
+
+- **PLOT** is an acronym for the core procedure: **P**arse → **L**exicon → **O**ntology → **T**axonomy — the four stages by which raw narrative text becomes a structured, annotated knowledge graph.
+- **Plot-Z** and **Plot-Zed** both suggest a *zero point* of a plot — the origin or coordinate anchor of the narrative space — which fits the graph-as-coordinate-system metaphor.
+- **Plotz** is also a Yiddish word meaning to be overwhelmed to the point of collapse, which captures something true about the ambition of the project: to hold the full weight of a story all at once.
+
+The working repo and corpus is **LottaStrands** (a Lebowski reference and a nod to the density of the graph). Plotz is the name of the broader product and site.
+
 ## Core goal: the knowledge graph
 The primary artifact of this system is a property graph representing the narrative. Nodes are things (text units, characters, locations, events, terms, tags). Edges are relationships (`CONTAINS`, `PRECEDES`, `MENTIONS`, `OCCURS_AT`, `IS_A`, etc.). Both nodes and edges carry properties.
 

@@ -18,12 +18,19 @@ _curation_path = None   # path to curation.json
 _operations = []        # list of applied operations (mirrors curation.json)
 
 
+def get_curation_path() -> Path:
+    return _curation_path
+
+
 def load(graph_path: Path, curation_path: Path):
     global _graph, _raw_graph_path, _curation_path, _operations
     _raw_graph_path = graph_path
     _curation_path = curation_path
 
-    _graph = Graph.load(str(graph_path))
+    if graph_path.exists():
+        _graph = Graph.load(str(graph_path))
+    else:
+        _graph = Graph()
 
     if curation_path.exists():
         with open(curation_path) as f:

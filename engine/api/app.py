@@ -4,7 +4,7 @@ from pathlib import Path
 from fastapi import FastAPI
 
 from engine.api import state
-from engine.api.routes import graph, curate
+from engine.api.routes import graph, curate, volumes
 
 GRAPH_PATH = Path("model/data/graph.json")
 CURATION_PATH = Path("model/config/curation.json")
@@ -20,6 +20,7 @@ app = FastAPI(title="LottaStrands Engine", lifespan=lifespan)
 
 app.include_router(graph.router)
 app.include_router(curate.router, prefix="/curate")
+app.include_router(volumes.router)
 
 
 @app.get("/")

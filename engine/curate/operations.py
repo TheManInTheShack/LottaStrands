@@ -207,15 +207,23 @@ def split_node(g: Graph, level: str, index: int, at_child_index: int,
 
 
 def apply_operations(g: Graph, ops: list):
-    """Re-apply a list of operations to a graph (used on reload)."""
-    for op in ops:
-        if op["op"] == "merge":
-            merge_nodes(g, op["level"], op["indices"], op["heading"])
-        elif op["op"] == "split":
-            split_node(g, op["level"], op["index"], op["at_child_index"],
-                       op.get("heading_before"), op.get("heading_after"))
-        elif op["op"] == "rename":
-            rename_node(g, op["level"], op["index"], op["heading"])
+    """Re-apply a list of operations to a graph (used on reload).
+
+    Invalid ops are skipped with a warning rather than crashing startup.
+    A stale curation.json (e.g. from before a volume add) should not make
+    the application unlaunchable.
+    """
+    for i, op in enumerate(ops):
+        try:
+            if op["op"] == "merge":
+                merge_nodes(g, op["level"], op["indices"], op["heading"])
+            elif op["op"] == "split":
+                split_node(g, op["level"], op["index"], op["at_child_index"],
+                           op.get("heading_before"), op.get("heading_after"))
+            elif op["op"] == "rename":
+                rename_node(g, op["level"], op["index"], op["heading"])
+        except Exception as e:
+            print(f"WARNING: skipping invalid curation op [{i}] {op.get('op')}: {e}")
 
 
 # --- helpers ---
