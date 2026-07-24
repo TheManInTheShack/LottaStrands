@@ -6,7 +6,7 @@ This is a generalized system for storing and analyzing knowledge about narrative
 ## Core goal: the knowledge graph
 The primary artifact of this system is a property graph representing the narrative. Nodes are things (text units, characters, locations, events, terms, tags). Edges are relationships (`CONTAINS`, `PRECEDES`, `MENTIONS`, `OCCURS_AT`, `IS_A`, etc.). Both nodes and edges carry properties.
 
-The graph is built in stages — parsed from source, structured into a hierarchy, enriched with vocabulary and annotation — and ultimately intended for use with Neo4j, though the initial representation is a Python dict of nodes and an adjacency list serialized to JSON.
+The graph is built in stages — parsed from source, structured into a hierarchy, enriched with vocabulary and annotation — and ultimately intended for use with Neo4j or other graph-first data structures, though the initial representation is a Python dict of nodes and an adjacency list serialized to JSON.
 
 ## Workflow
 ### Stage 1: Parse
